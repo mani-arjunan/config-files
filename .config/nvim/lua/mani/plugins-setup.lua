@@ -28,6 +28,8 @@ end
 
 -- add list of plugins to install
 return packer.startup(function(use)
+  -- editor config
+  use("editorconfig/editorconfig-vim")
   -- packer can manage itself
   use("wbthomason/packer.nvim")
 
@@ -39,6 +41,15 @@ return packer.startup(function(use)
   use("christoomey/vim-tmux-navigator") -- tmux & split window navigation
 
   use("szw/vim-maximizer") -- maximizes and restores current window
+
+  -- Toggle term
+  use({
+    "akinsho/toggleterm.nvim",
+    tag = "*",
+    config = function()
+      require("toggleterm").setup()
+    end,
+  })
 
   -- install without yarn or npm
 
@@ -52,7 +63,7 @@ return packer.startup(function(use)
   })
 
   -- Quick fix window changes
-  use('kevinhwang91/nvim-bqf')
+  use("kevinhwang91/nvim-bqf")
 
   -- essential plugins
   use("tpope/vim-surround") -- add, delete, change surroundings (it's awesome)
@@ -76,6 +87,9 @@ return packer.startup(function(use)
   -- fuzzy finding w/ telescope
   use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" }) -- dependency for better sorting performance
   use({ "nvim-telescope/telescope.nvim", branch = "0.1.x" }) -- fuzzy finder
+
+  -- Telescope search
+  use({ "nvim-telescope/telescope-live-grep-args.nvim" })
 
   -- autocompletion
   use("hrsh7th/nvim-cmp") -- completion plugin
