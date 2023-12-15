@@ -14,6 +14,10 @@ end
 telescope.setup({
   -- configure custom mappings
   defaults = {
+    layout_config = {
+      vertical = { width = 0.5 },
+      horizontal = { width = 0.9 },
+    },
     mappings = {
       i = {
         ["<C-k>"] = actions.move_selection_previous, -- move to prev result
@@ -25,3 +29,4 @@ telescope.setup({
 })
 
 telescope.load_extension("fzf")
+telescope.load_extension("live_grep_args")
