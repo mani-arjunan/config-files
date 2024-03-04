@@ -17,7 +17,7 @@ keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 -- map copy and paste selected text
-keymap.set("x", "<leader>p", "\"_dp")
+keymap.set("x", "<leader>p", '"_dp')
 
 -- map navigations in insert mode
 keymap.set("i", "<C-k>", "<Up>")
@@ -69,16 +69,18 @@ keymap.set("n", "<leader>sm", ":MaximizerToggle<CR>") -- toggle split window max
 keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>") -- toggle file explorer
 
 -- format
-keymap.set("n", "<C-S-k>", "<cmd>lua vim.lsp.buf.format()<cr>");
+keymap.set("n", "<C-S-k>", "<cmd>lua vim.lsp.buf.format()<cr>")
 
 -- telescope
 keymap.set("n", "<leader><leader>", "<cmd>Telescope find_files<cr>") -- find files within current working directory, respects .gitignore
 keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>") -- find string in current working directory as you type
 keymap.set("n", "<leader>fg", "<cmd>Telescope git_files<cr>") -- find string in current working directory as you type
+keymap.set("n", "<leader>fd", "<cmd>Telescope dir live_grep<CR>") -- selects directory that we need to search string
+keymap.set("n", "<leader>pd", "<cmd>Telescope dir find_files<CR>") -- selects directory that we need to search files
 keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>") -- find string under cursor in current working directory
 keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>") -- list open buffers in current neovim instance
 keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>") -- list available help tags
-keymap.set("n", "<leader>fm", "<cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>") -- live grep search 
+keymap.set("n", "<leader>fm", "<cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>") -- live grep search
 
 -- telescope git commands (not on youtube nvim video)
 keymap.set("n", "<leader>gc", "<cmd>Telescope git_commits<cr>") -- list all git commits (use <cr> to checkout) ["gc" for git commits]
@@ -90,8 +92,40 @@ keymap.set("n", "<leader>gs", "<cmd>Telescope git_status<cr>") -- list current c
 keymap.set("n", "`", "0")
 keymap.set("n", "-", "$")
 
--- map undo key
-keymap.set("i", "<leader>z", "<C-u>")
-
 -- restart lsp server (not on youtube nvim video)
 keymap.set("n", "<leader>rs", ":LspRestart<CR>") -- mapping to restart lsp if necessary
+
+-- window splitting
+keymap.set("n", "<leader>v", "<cmd>vsplit<cr>")
+keymap.set("n", "<leader>h", "<cmd>split<cr>")
+
+-- clear search highlight
+keymap.set("n", "<leader>cs", "<cmd>noh<cr>")
+
+-- barbar keyaps
+local opts = { noremap = true, silent = true }
+
+keymap.set("n", "<C-Left>", "<Cmd>BufferPrevious<CR>", opts)
+keymap.set("n", "<C-Right>", "<Cmd>BufferNext<CR>", opts)
+keymap.set("n", "<A-<>", "<Cmd>BufferMovePrevious<CR>", opts)
+keymap.set("n", "<A->>", "<Cmd>BufferMoveNext<CR>", opts)
+keymap.set("n", "<leader>1", "<Cmd>BufferGoto 1<CR>", opts)
+keymap.set("n", "<leader>2", "<Cmd>BufferGoto 2<CR>", opts)
+keymap.set("n", "<leader>3", "<Cmd>BufferGoto 3<CR>", opts)
+keymap.set("n", "<leader>4", "<Cmd>BufferGoto 4<CR>", opts)
+keymap.set("n", "<leader>5", "<Cmd>BufferGoto 5<CR>", opts)
+keymap.set("n", "<leader>6", "<Cmd>BufferGoto 6<CR>", opts)
+keymap.set("n", "<leader>7", "<Cmd>BufferGoto 7<CR>", opts)
+keymap.set("n", "<leader>8", "<Cmd>BufferGoto 8<CR>", opts)
+keymap.set("n", "<leader>9", "<Cmd>BufferGoto 9<CR>", opts)
+keymap.set("n", "<leader>0", "<Cmd>BufferLast<CR>", opts)
+keymap.set("n", "<A-p>", "<Cmd>BufferPin<CR>", opts)
+keymap.set("n", "<A-c>", "<Cmd>BufferClose<CR>", opts)
+keymap.set("n", "<C-p>", "<Cmd>BufferPick<CR>", opts)
+keymap.set("n", "<leader>bb", "<Cmd>BufferOrderByBufferNumber<CR>", opts)
+keymap.set("n", "<leader>bd", "<Cmd>BufferOrderByDirectory<CR>", opts)
+keymap.set("n", "<leader>bl", "<Cmd>BufferOrderByLanguage<CR>", opts)
+keymap.set("n", "<leader>bw", "<Cmd>BufferOrderByWindowNumber<CR>", opts)
+
+-- formatter
+keymap.set("n", "<C-s>", ":lua vim.lsp.buf.format()<CR>")
