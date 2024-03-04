@@ -25,6 +25,8 @@ mason_lspconfig.setup({
     "tsserver",
     "html",
     "cssls",
+    "gopls",
+    "clangd",
     "tailwindcss",
     "lua_ls",
     "emmet_ls",
