@@ -81,6 +81,11 @@ return packer.startup(function(use)
   -- vs-code like icons
   use("nvim-tree/nvim-web-devicons")
 
+  use({
+    "kyazdani42/nvim-tree.lua",
+    requires = { "kyazdani42/nvim-web-devicons" },
+    config = [[require('config.nvim-tree')]],
+  })
   -- statusline
   use("nvim-lualine/lualine.nvim")
 
@@ -90,6 +95,19 @@ return packer.startup(function(use)
 
   -- Telescope search
   use({ "nvim-telescope/telescope-live-grep-args.nvim" })
+
+  -- Telescope directory specific search
+  use({
+    "princejoogie/dir-telescope.nvim",
+    requires = {"nvim-telescope/telescope.nvim"},
+    config = function()
+      require("dir-telescope").setup({
+        hjidden = true,
+        no_ignore = false,
+        show_preview = true
+      })
+    end,
+  })
 
   -- autocompletion
   use("hrsh7th/nvim-cmp") -- completion plugin
@@ -139,8 +157,22 @@ return packer.startup(function(use)
   -- git integration
   use("lewis6991/gitsigns.nvim") -- show line modifications on left hand side
 
+  -- tabs
+  use("romgrk/barbar.nvim")
+
   -- primeagen vimbegood game(helpful to get used to vim keystrokes)
   use("ThePrimeagen/vim-be-good")
+
+  -- formatter
+  use({
+    "stevearc/conform.nvim",
+    config = function()
+      require("conform").setup()
+    end,
+  })
+
+  -- IndentLines
+  use("lukas-reineke/indent-blankline.nvim")
 
   -- Git plugin
   use("tpope/vim-fugitive")
