@@ -131,3 +131,8 @@ keymap.set("n", "<leader>bw", "<Cmd>BufferOrderByWindowNumber<CR>", opts)
 keymap.set("n", "<C-s>", ":lua vim.lsp.buf.format()<CR>")
 
 keymap.set("n", "<leader>tt", "<Cmd>Trouble<CR>")
+
+-- cnext and cprev
+keymap.set("n", "<C-n>", "<Cmd>cnext<CR>")
+keymap.set("n", "<C-p>", "<Cmd>cprev<CR>")
+
