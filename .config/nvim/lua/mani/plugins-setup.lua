@@ -62,6 +62,16 @@ return packer.startup(function(use)
     ft = { "markdown" },
   })
 
+  -- Trouble detector
+  use({
+    "folke/trouble.nvim",
+    config = function()
+      require("trouble").setup({
+        icons = true,
+      })
+    end,
+  })
+
   -- Quick fix window changes
   use("kevinhwang91/nvim-bqf")
 
