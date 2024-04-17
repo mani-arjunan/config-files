@@ -129,3 +129,5 @@ keymap.set("n", "<leader>bw", "<Cmd>BufferOrderByWindowNumber<CR>", opts)
 
 -- formatter
 keymap.set("n", "<C-s>", ":lua vim.lsp.buf.format()<CR>")
+
+keymap.set("n", "<leader>tt", "<Cmd>Trouble<CR>")
