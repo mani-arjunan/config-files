@@ -20,6 +20,7 @@ require("mani.plugins.formatter")
 require("mani.plugins.toggleterm")
 require("mani.core.set")
 require("mani.plugins.debugger")
+require("mani.plugins.fold")
 
 
 
