@@ -41,6 +41,9 @@ return packer.startup(function(use)
   use("AlexvZyl/nordic.nvim")
   use("catppuccin/nvim")
   use("Mofiqul/vscode.nvim")
+  use("rose-pine/neovim")
+  -- ColorSchemes
+
 
   use("christoomey/vim-tmux-navigator") -- tmux & split window navigation
 
