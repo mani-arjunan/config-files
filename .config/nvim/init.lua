@@ -21,6 +21,7 @@ require("mani.plugins.toggleterm")
 require("mani.core.set")
 require("mani.plugins.debugger")
 require("mani.plugins.fold")
+require("mani.plugins.transparent")
 
 
 
