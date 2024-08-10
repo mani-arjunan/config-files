@@ -188,6 +188,12 @@ return packer.startup(function(use)
   -- Function fold
   use("kevinhwang91/promise-async")
   use({ "kevinhwang91/nvim-ufo", requires = "kevinhwang91/promise-async" })
+  use({
+    "ibhagwan/fzf-lua",
+    -- optional for icon support
+    requires = { "nvim-tree/nvim-web-devicons" },
+  })
+  use('xiyaowong/transparent.nvim')
 
   if packer_bootstrap then
     require("packer").sync()
