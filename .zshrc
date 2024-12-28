@@ -116,7 +116,6 @@ export PATH="/Users/manikandan/.rd/bin:$PATH"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 alias lg='lazygit'
-export NPM_TOKEN="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"
 if type brew &>/dev/null
 then
   FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
