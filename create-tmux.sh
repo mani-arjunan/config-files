@@ -27,4 +27,3 @@ function create_tmux_server () {
 if [ "${1}" != 'import' ]; then
   create_tmux_server "${@}"
 fi
-
