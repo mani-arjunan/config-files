@@ -1,0 +1,5 @@
+alias gc="git checkout"
+alias gcn="git checkout -b"
+alias gpull="git pull origin"
+alias gpush="git push origin"
+alias load-envs="eval '$(ansible-vault view ~/secrets/secret.sh)'"
