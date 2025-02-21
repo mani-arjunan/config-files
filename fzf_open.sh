@@ -1,9 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-while true; do
-    FILE=$(find ~/Documents | fzf)
+FILE=$(find ~/Documents/max ~/personal -mindepth 1 -maxdepth 1 -type d | fzf)
 
-    if [[ -n "$FILE" ]]; then
-      tmux new-window "cd $(dirname "$FILE") && nvim $FILE"
-    fi
-done
+if [[ -n "$FILE" ]]; then
+  SESSION_NAME=$(basename "$FILE" | tr . _)
+
+  if ! tmux has-session -t "$SESSION_NAME" 2> /dev/null; then
+    ~/create-tmux.sh "$FILE" "$SESSION_NAME" true false "zsh"
+  fi
+
+  tmux switch-client -t "$SESSION_NAME"
+fi
