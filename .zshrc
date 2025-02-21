@@ -4,23 +4,29 @@ fi
 
 export ZSH="$HOME/.oh-my-zsh"
 
-# ZSH Theme
 ZSH_THEME="robbyrussell"
 
-# Plugins for Oh-My-zsh
 plugins=(
-  git
-  zsh-autosuggestions
+	git
+	zsh-autosuggestions
   docker
   zsh-fzf-history-search
 )
 
-#Oh-my-zsh
 source $ZSH/oh-my-zsh.sh
+alias vim="nvim"
+export PATH=$PATH:/opt/homebrew/bin
+source $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme
 
-#Aliases
+#bindings
+bindkey -s ^f "~/fzf_open.sh\n"
+bindkey -s ^q "~/fzf_queries.sh\n" 
+
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# load alias
 source ~/alias
 
-#NVM shell
-export NVM_DIR=~/.nvm
-source ~/.nvm/nvm.sh
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
