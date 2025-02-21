@@ -110,7 +110,7 @@ keymap.set("n", "<leader>rs", ":LspRestart<CR>") -- mapping to restart lsp if ne
 -- barbartabs keymaps
 
 keymap.set("n", "<A-a>", "<Cmd>BufferPrevious<CR>", opts)
-keymap.set("n", "<A-s>", "<Cmd>BufferNext<CR>", opts)
+keymap.set("n", "<A-d>", "<Cmd>BufferNext<CR>", opts)
 keymap.set("n", "<A-<>", "<Cmd>BufferMovePrevious<CR>", opts)
 keymap.set("n", "<A->>", "<Cmd>BufferMoveNext<CR>", opts)
 keymap.set("n", "<leader>2", "<Cmd>BufferGoto 1<CR>", opts)
@@ -124,7 +124,7 @@ keymap.set("n", "<leader>8", "<Cmd>BufferGoto 8<CR>", opts)
 keymap.set("n", "<leader>9", "<Cmd>BufferGoto 9<CR>", opts)
 keymap.set("n", "<leader>0", "<Cmd>BufferLast<CR>", opts)
 keymap.set("n", "<A-p>", "<Cmd>BufferPin<CR>", opts)
-keymap.set("n", "<A-c>", "<Cmd>BufferClose<CR>", opts)
+keymap.set("n", "<A-q>", "<Cmd>BufferClose<CR>", opts)
 keymap.set("n", "<C-p>", "<Cmd>BufferPick<CR>", opts)
 keymap.set("n", "<leader>bb", "<Cmd>BufferOrderByBufferNumber<CR>", opts)
 keymap.set("n", "<leader>bd", "<Cmd>BufferOrderByDirectory<CR>", opts)
@@ -140,3 +140,7 @@ keymap.set("n", "<leader>tt", "<Cmd>Trouble<CR>")
 -- cnext and cprev
 keymap.set("n", "<C-n>", "<Cmd>cnext<CR>")
 keymap.set("n", "<C-p>", "<Cmd>cprev<CR>")
+
+-- for fuzzyfinder 
+keymap.set("n", "<C-f>", "<Cmd>:silent !tmux neww ~/fzf_open.sh<CR>")
+keymap.set("n", "<C-q>", "<Cmd>:silent !tmux neww ~/fzf_queries.sh<CR>")
