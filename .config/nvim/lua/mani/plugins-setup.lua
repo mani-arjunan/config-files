@@ -29,7 +29,6 @@ end
 -- add list of plugins to install
 return packer.startup(function(use)
   -- editor config
-  use("editorconfig/editorconfig-vim")
   -- packer can manage itself
   use("wbthomason/packer.nvim")
 
@@ -43,7 +42,6 @@ return packer.startup(function(use)
   use("Mofiqul/vscode.nvim")
   use("rose-pine/neovim")
   -- ColorSchemes
-
 
   use("christoomey/vim-tmux-navigator") -- tmux & split window navigation
 
@@ -64,17 +62,6 @@ return packer.startup(function(use)
         icones = false,
       })
     end,
-  })
-
-  -- install without yarn or npm
-
-  use({
-    "iamcco/markdown-preview.nvim",
-    run = "cd app && npm install",
-    setup = function()
-      vim.g.mkdp_filetypes = { "markdown" }
-    end,
-    ft = { "markdown" },
   })
 
   -- essential plugins
@@ -142,6 +129,7 @@ return packer.startup(function(use)
   -- formatting & linting
   use("jose-elias-alvarez/null-ls.nvim") -- configure formatters & linters
   use("jayp0521/mason-null-ls.nvim") -- bridges gap b/w mason & null-ls
+  use("WhoIsSethDaniel/mason-tool-installer.nvim")
 
   -- treesitter configuration
   use({
@@ -165,22 +153,11 @@ return packer.startup(function(use)
   -- primeagen vimbegood game(helpful to get used to vim keystrokes)
   use("ThePrimeagen/vim-be-good")
 
-  -- formatter
-  use({
-    "stevearc/conform.nvim",
-    config = function()
-      require("conform").setup()
-    end,
-  })
-
   -- IndentLines
   use("lukas-reineke/indent-blankline.nvim")
 
   -- Git plugin
   use("tpope/vim-fugitive")
-
-  -- Codeium
-  use("Exafunction/codeium.vim")
 
   use("MunifTanjim/nui.nvim")
   use({ "kawre/leetcode.nvim" }, { requires = "MunifTanjim/nui.nvim" })
@@ -193,7 +170,15 @@ return packer.startup(function(use)
     -- optional for icon support
     requires = { "nvim-tree/nvim-web-devicons" },
   })
-  use('xiyaowong/transparent.nvim')
+  -- install without yarn or npm
+  use({
+    "iamcco/markdown-preview.nvim",
+    run = function()
+      vim.fn["mkdp#util#install"]()
+    end,
+  })
+
+  use("xiyaowong/transparent.nvim")
 
   if packer_bootstrap then
     require("packer").sync()
