@@ -6,7 +6,7 @@ if [[ -n "$FILE" ]]; then
   SESSION_NAME=$(basename "$FILE" | tr . _)
 
   if ! tmux has-session -t "$SESSION_NAME" 2> /dev/null; then
-    ~/create-tmux.sh "$FILE" "$SESSION_NAME" true false "zsh"
+    ~/create-tmux.sh "$FILE" "$SESSION_NAME" true false
   fi
 
   tmux switch-client -t "$SESSION_NAME"
