@@ -20,7 +20,8 @@ source $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme
 
 #bindings
 bindkey -s ^f "~/fzf_open.sh\n"
-bindkey -s ^q "~/fzf_queries.sh\n" 
+bindkey -s ^q "~/fzf_queries.sh\n"
+bindkey -s ^k "~/tmux-kill-session.sh\n"
 
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
