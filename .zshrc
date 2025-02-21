@@ -9,15 +9,17 @@ ZSH_THEME="robbyrussell"
 
 # Plugins for Oh-My-zsh
 plugins=(
-	git
-	zsh-autosuggestions
+  git
+  zsh-autosuggestions
+  docker
+  zsh-fzf-history-search
 )
 
 #Oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
 #Aliases
-alias vim="nvim"
+source ~/alias
 
 #NVM shell
 export NVM_DIR=~/.nvm
