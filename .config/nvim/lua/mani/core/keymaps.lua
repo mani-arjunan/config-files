@@ -96,6 +96,7 @@ keymap.set("n", "<leader>gs", "<cmd>Telescope git_status<cr>") -- list current c
 -- line travel keymap
 keymap.set("n", "`", "0")
 keymap.set("n", "-", "$")
+keymap.set("n", "dl", "d$")
 
 keymap.set("n", "<leader>rs", ":LspRestart<CR>") -- mapping to restart lsp if necessary
 
