@@ -6,6 +6,7 @@ local opts = { noremap = true, silent = true }
 
 -- use jk to exit insert mode
 keymap.set("i", "jk", "<ESC>")
+keymap.set("n", "cq", "cb")
 
 -- move any lines when selected
 keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -138,6 +139,22 @@ keymap.set("n", "<C-p>", "<Cmd>cprev<CR>")
 keymap.set("n", "<C-f>", "<Cmd>:silent !tmux neww ~/fzf_open.sh<CR>")
 keymap.set("n", "<C-q>", "<Cmd>:silent !tmux neww ~/fzf_queries.sh<CR>")
 keymap.set("n", "<leader>k", "<Cmd>:silent !~/tmux-kill-session.sh<CR>")
+
+local parse_entry = function(entry)
+    local parsed = vim.split(entry, '%s+')
+    return { path = parsed[1], hash = parsed[2], branch = parsed[3]:sub(2, #parsed[3] - 1) }
+end
+
+local delete_worktree = function(selected, _)
+    local parsed = parse_entry(selected[1])
+    vim.ui.input({
+        prompt = string.format('Delete worktree %s? [y/N] ', parsed.branch),
+    }, function(input)
+        if vim.trim(input):lower() == 'y' then
+            require('git-worktree').delete_worktree(parsed.branch, true)
+        end
+    end)
+end
 
 -- git-worktree remap
 keymap.set("n", "<leader>gw", "<Cmd>Telescope git_worktree git_worktrees<CR>")
