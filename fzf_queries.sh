@@ -1,7 +1,16 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-FILE=$(find ~/queries -mindepth 1 -maxdepth 1 -type d | awk -F/ '{print $NF}' | fzf)
+selected=`cat ~/queries/languages ~/queries/utils | fzf`
 
-if [[ -n "$FILE" ]]; then
-  tmux new-window "cd ~/queries && ./index.sh $FILE"
+if [[ -z $selected ]]; then
+    exit 0
+fi
+
+read -p "Enter Query: " query
+
+if grep -qs "$selected" ~/queries/languages; then
+    query=`echo $query | tr ' ' '+'`
+    tmux neww bash -c "curl cht.sh/$selected/$query | less"
+else
+    tmux neww bash -c "curl -s cht.sh/$selected~$query | less"
 fi
