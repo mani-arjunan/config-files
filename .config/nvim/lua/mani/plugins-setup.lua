@@ -41,6 +41,8 @@ return packer.startup(function(use)
   use("catppuccin/nvim")
   use("Mofiqul/vscode.nvim")
   use("rose-pine/neovim")
+  use("sainnhe/gruvbox-material")
+  use("ilof2/posterpole.nvim")
   -- ColorSchemes
 
   use("christoomey/vim-tmux-navigator") -- tmux & split window navigation
