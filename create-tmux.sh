@@ -15,11 +15,11 @@ function create_tmux_server () {
   fi
 
   if [ "$windows_needed" = "true" ]; then
-    tmux new-window -t "$name:1" -n "$name-exec" -d
+    tmux new-window -t "$name:2" -n "$name-exec" -d
     if [ "$is_git_needed" = "true" ]; then
-      tmux new-window -t "$name:2" -n "$name-git" -d "lazygit;$start_shell"
+      tmux new-window -t "$name:3" -n "$name-git" -d "lazygit;$start_shell"
     else
-      tmux new-window -t "$name:2" -n "$name-exec-2" -d
+      tmux new-window -t "$name:3" -n "$name-exec-3" -d
     fi
   fi
 }
