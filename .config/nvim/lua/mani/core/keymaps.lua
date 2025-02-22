@@ -137,3 +137,29 @@ keymap.set("n", "<C-p>", "<Cmd>cprev<CR>")
 keymap.set("n", "<C-f>", "<Cmd>:silent !tmux neww ~/fzf_open.sh<CR>")
 keymap.set("n", "<C-q>", "<Cmd>:silent !tmux neww ~/fzf_queries.sh<CR>")
 keymap.set("n", "<leader>k", "<Cmd>:silent !~/tmux-kill-session.sh<CR>")
+
+-- git-worktree remap
+keymap.set("n", "<leader>gw", "<Cmd>Telescope git_worktree git_worktrees<CR>")
+keymap.set("n", "<leader>gwc", "<Cmd>Telescope git_worktree create_git_worktree<CR>")
+keymap.set("n", "<leader>gwd", function()
+    -- Get the list of worktrees
+    vim.fn.jobstart("git worktree list", {
+        stdout_buffered = true,
+        on_stdout = function(_, data)
+            if not data then return end
+            local worktrees = vim.tbl_filter(function(entry)
+                return entry ~= ""
+            end, data)
+
+            -- Show a selection menu
+            vim.ui.select(worktrees, {
+                prompt = "Select worktree to delete",
+                format_item = function(item) return item end,
+            }, function(selected)
+                if selected then
+                    delete_worktree({ selected }, nil)
+                end
+            end)
+        end,
+    })
+end, { desc = "Delete Git Worktree" })
