@@ -180,6 +180,9 @@ return packer.startup(function(use)
 
   use("xiyaowong/transparent.nvim")
 
+  -- git worktree with telescope support
+  use("ThePrimeagen/git-worktree.nvim")
+
   if packer_bootstrap then
     require("packer").sync()
   end
