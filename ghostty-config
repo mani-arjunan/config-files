@@ -1,0 +1,24 @@
+font-family = Hack Nerd Font Mono
+font-size = 22
+font-style-bold = true
+font-thicken = true
+
+window-height = 80
+window-width = 300
+
+macos-option-as-alt = true
+
+shell-integration-features = no-cursor
+adjust-cursor-thickness = 5
+cursor-style = block
+cursor-click-to-move = true
+
+background-opacity = 0.98
+foreground = white
+
+theme = CutiePro
+# theme = GruvboxDarkHard
+# theme = Batman
+# theme = Chalk
+# theme = embers-dark
+
