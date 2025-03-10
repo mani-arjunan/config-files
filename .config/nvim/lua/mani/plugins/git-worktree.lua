@@ -21,9 +21,10 @@ gw.on_tree_change(function(op, metadata)
         if win_handle then
           for win in win_handle:lines() do
             if win ~= current_window then
-              local cmd = string.format("tmux send-keys -t %s:%s 'cd %s' C-m", session_name, win, metadata.path)
+              local cmd = string.format("tmux send-keys -t %s:%s 'cd %s && clear' C-m", session_name, win, metadata.path)
               os.execute(cmd)
             end
+            require("nvim-tree.api").tree.change_root(metadata.path)
           end
           win_handle:close()
         end
@@ -31,3 +32,4 @@ gw.on_tree_change(function(op, metadata)
     end
   end
 end)
+
