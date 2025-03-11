@@ -1,33 +1,34 @@
-local opt = vim.opt -- for conciseness
+vim.opt.nu = true
+vim.opt.relativenumber = true
 
--- -- search settings
-opt.ignorecase = true -- ignore case when searching
-opt.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive
+-- -- vim.opt.tabstop = 10
+-- vim.opt.softtabstop = 4
+-- vim.opt.shiftwidth  = 4
+-- vim.opt.expandtab = true
+--
+-- vim.opt.smartindent = true
 
--- turn on termguicolors for nightfly colorscheme to work
--- (have to use iterm2 or any other true color terminal)
-opt.termguicolors = true
-opt.background = "dark" -- colorschemes that can be light or dark will be made dark
-opt.signcolumn = "yes" -- show sign column so that text doesn't shift
+vim.opt.wrap = false
 
--- backspace
-opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
+vim.opt.swapfile = false
+vim.opt.backup = false
+vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.opt.undofile = true
 
--- clipboard
-opt.clipboard:append("unnamedplus") -- use system clipboard as default register
+vim.opt.hlsearch = true
+vim.opt.incsearch = true
 
--- split windows
-opt.splitright = true -- split vertical window to the right
-opt.splitbelow = true -- split horizontal window to the bottom
+vim.opt.termguicolors = true
 
-opt.iskeyword:append("-") -- consider string-string as whole word
+vim.opt.scrolloff = 30
+vim.opt.signcolumn = "yes"
+vim.opt.isfname:append("@-@")
 
-opt.encoding = "utf-8"
-opt.expandtab = true
+vim.opt.updatetime = 50
 
-opt.tabstop = 2
-opt.shiftwidth = 2
-opt.softtabstop = 2
+vim.opt.colorcolumn = ""
 
-
-opt.fileformat = 'unix'
+vim.g.gruvbox_material_disable_italic_comment = 1
+vim.g.gruvbox_material_disable_terminal_colors = 1
+vim.g.gruvbox_contrast = 'soft'
+vim.g.gruvbox_transparent_mode = 1
