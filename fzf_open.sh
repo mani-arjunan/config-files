@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-FILE=$(find ~/Documents/max ~/personal -mindepth 1 -maxdepth 1 -type d | fzf)
+FILE=$(find ~/Documents/ ~/personal -mindepth 1 -maxdepth 1 -type d | fzf)
 CURRENT_TERM=$(echo $TERM)
 
 if [[ -n "$FILE" ]]; then
