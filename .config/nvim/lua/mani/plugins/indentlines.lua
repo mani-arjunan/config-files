@@ -4,7 +4,13 @@ if not ibl_setup then
   return
 end
 
--- configure ibl
 ibl.setup({
-  scope = { enabled = false }
+  indent = {
+    char = "│", -- Customize the character for indent lines
+  },
+  scope = {
+    enabled = true, -- Enable scope highlighting for the cursor
+    show_start = false, -- Don't highlight the start of the context
+    show_end = false, -- Don't highlight the end of the context
+  },
 })
