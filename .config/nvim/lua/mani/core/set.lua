@@ -32,3 +32,6 @@ vim.g.gruvbox_material_disable_italic_comment = 1
 vim.g.gruvbox_material_disable_terminal_colors = 1
 vim.g.gruvbox_contrast = 'soft'
 vim.g.gruvbox_transparent_mode = 1
+
+-- hide fold related numbers
+vim.opt.foldcolumn=0
