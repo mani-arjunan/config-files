@@ -4,6 +4,10 @@ vim.g.mapleader = " "
 local keymap = vim.keymap -- for conciseness
 local opts = { noremap = true, silent = true }
 
+-- use g- and g+ for undo and redo
+-- keymap.set("n", "u", "g-")
+-- keymap.set("n", "r", "g+")
+
 -- use jk to exit insert mode
 keymap.set("i", "jk", "<ESC>")
 keymap.set("n", "cq", "cb")
@@ -29,6 +33,7 @@ keymap.set("n", "<C-p>", ":bp <CR>")
 keymap.set("n", "<C-n>", ":bn <CR>")
 
 -- keymap.set back word from b to q
+keymap.set("n", "b", "q")
 keymap.set("n", "q", "b")
 keymap.set("n", "dq", "db")
 
@@ -99,7 +104,8 @@ keymap.set("n", "<leader>gf", "<cmd>Gvdiff :0<cr>")
 -- line travel keymap
 keymap.set("n", "`", "0")
 keymap.set("n", "-", "$")
-keymap.set("n", "dl", "d$")
+keymap.set("n", "de", "d$")
+keymap.set("n", "ce", "c$")
 
 keymap.set("n", "<leader>rs", ":LspRestart<CR>") -- mapping to restart lsp if necessary
 
