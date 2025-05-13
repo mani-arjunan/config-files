@@ -100,7 +100,6 @@ keymap.set("n", "<leader>gb", "<cmd>Telescope git_branches<cr>") -- list git bra
 keymap.set("n", "<leader>gs", "<cmd>Telescope git_status<cr>") -- list current changes per file with diff preview ["gs" for git status]
 keymap.set("n", "<leader>gf", "<cmd>Gvdiff :0<cr>")
 
-
 -- line travel keymap
 keymap.set("n", "`", "0")
 keymap.set("n", "-", "$")
@@ -149,43 +148,55 @@ keymap.set("n", "<C-q>", "<Cmd>:silent !tmux neww ~/fzf_queries.sh<CR>")
 keymap.set("n", "<leader>k", "<Cmd>:silent !~/tmux-kill-session.sh<CR>")
 --
 local parse_entry = function(entry)
-    local parsed = vim.split(entry, '%s+')
-    return { path = parsed[1], hash = parsed[2], branch = parsed[3]:sub(2, #parsed[3] - 1) }
+  local parsed = vim.split(entry, "%s+")
+  return { path = parsed[1], hash = parsed[2], branch = parsed[3]:sub(2, #parsed[3] - 1) }
 end
 
 local delete_worktree = function(selected, _)
-    local parsed = parse_entry(selected[1])
-    vim.ui.input({
-        prompt = string.format('Delete worktree %s? [y/N] ', parsed.branch),
-    }, function(input)
-        if vim.trim(input):lower() == 'y' then
-            require('git-worktree').delete_worktree(parsed.branch, true)
-        end
-    end)
+  local parsed = parse_entry(selected[1])
+  vim.ui.input({
+    prompt = string.format("Delete worktree %s? [y/N] ", parsed.branch),
+  }, function(input)
+    if vim.trim(input):lower() == "y" then
+      require("git-worktree").delete_worktree(parsed.branch, true)
+    end
+  end)
 end
 
 -- git-worktree remap
-keymap.set("n", "<leader>gw", "<Cmd>Telescope git_worktree git_worktrees<CR>")
-keymap.set("n", "<leader>gwc", "<Cmd>Telescope git_worktree create_git_worktree<CR>")
-keymap.set("n", "<leader>gwd", function()
-    -- Get the list of worktrees
-    vim.fn.jobstart("git worktree list", {
-        stdout_buffered = true,
-        on_stdout = function(_, data)
-            if not data then return end
-            local worktrees = vim.tbl_filter(function(entry)
-                return entry ~= ""
-            end, data)
+keymap.set("n", "<leader>gw", function()
+  require("nvim-tree.api").tree.close()
+  require("telescope").extensions.git_worktree.git_worktrees()
+end)
 
-            -- Show a selection menu
-            vim.ui.select(worktrees, {
-                prompt = "Select worktree to delete",
-                format_item = function(item) return item end,
-            }, function(selected)
-                if selected then
-                    delete_worktree({ selected }, nil)
-                end
-            end)
+keymap.set("n", "<leader>gwc", function()
+  require("nvim-tree.api").tree.close()
+  require("telescope").extensions.git_worktree.create_git_worktrees()
+end)
+
+keymap.set("n", "<leader>gwd", function()
+  -- Get the list of worktrees
+  vim.fn.jobstart("git worktree list", {
+    stdout_buffered = true,
+    on_stdout = function(_, data)
+      if not data then
+        return
+      end
+      local worktrees = vim.tbl_filter(function(entry)
+        return entry ~= ""
+      end, data)
+
+      -- Show a selection menu
+      vim.ui.select(worktrees, {
+        prompt = "Select worktree to delete",
+        format_item = function(item)
+          return item
         end,
-    })
+      }, function(selected)
+        if selected then
+          delete_worktree({ selected }, nil)
+        end
+      end)
+    end,
+  })
 end, { desc = "Delete Git Worktree" })
