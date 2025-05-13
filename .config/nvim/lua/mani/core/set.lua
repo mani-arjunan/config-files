@@ -35,3 +35,5 @@ vim.g.gruvbox_transparent_mode = 1
 
 -- hide fold related numbers
 vim.opt.foldcolumn="0"
+vim.opt.fillchars:append({ eob = " " })
+
