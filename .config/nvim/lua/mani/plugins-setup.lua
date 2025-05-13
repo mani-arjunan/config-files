@@ -130,7 +130,6 @@ return packer.startup(function(use)
 
   -- formatting & linting
   use("jose-elias-alvarez/null-ls.nvim") -- configure formatters & linters
-  use("jayp0521/mason-null-ls.nvim") -- bridges gap b/w mason & null-ls
   use("WhoIsSethDaniel/mason-tool-installer.nvim")
 
   -- treesitter configuration
@@ -142,6 +141,13 @@ return packer.startup(function(use)
     end,
   })
 
+  -- AST
+
+  use({
+    "nvim-treesitter/playground",
+    cmd = "TSPlaygroundToggle",
+  })
+
   -- auto closing
   use("windwp/nvim-autopairs") -- autoclose parens, brackets, quotes, etc...
   use({ "windwp/nvim-ts-autotag", after = "nvim-treesitter" }) -- autoclose tags
@@ -149,8 +155,8 @@ return packer.startup(function(use)
   -- git integration
   use("lewis6991/gitsigns.nvim") -- show line modifications on left hand side
 
-  -- tabs
-  use("romgrk/barbar.nvim")
+  -- -- tabs
+  -- use("romgrk/barbar.nvim")
 
   -- primeagen vimbegood game(helpful to get used to vim keystrokes)
   use("ThePrimeagen/vim-be-good")
@@ -181,6 +187,9 @@ return packer.startup(function(use)
   })
 
   use("xiyaowong/transparent.nvim")
+
+  -- image preview
+  use("adelarsq/image_preview.nvim")
 
   -- git worktree with telescope support
   use("ThePrimeagen/git-worktree.nvim")
