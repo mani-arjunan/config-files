@@ -15,4 +15,5 @@ vim.cmd [[
   highlight NvimTreeNormalNC guibg=NONE ctermbg=NONE
   highlight NvimTreeEndOfBuffer guibg=NONE ctermbg=NONE
   highlight NvimTreeCursorLine guibg=#3c3836
+  highlight NvimTreeEndOfBuffer guifg=#1d2021 
 ]]
