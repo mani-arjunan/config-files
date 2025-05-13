@@ -6,6 +6,9 @@ end
 
 saga.setup({
   -- keybinds for navigation in lspsaga window
+  symbol_in_winbar = {
+    enable = false,
+  },
   scoll_preview = { scroll_down = "<C-f>", scroll_up = "<C-b>" },
   -- use enter to open file with definition preview
   definition = {
