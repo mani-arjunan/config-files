@@ -59,6 +59,14 @@ lspconfig["ts_ls"].setup({
   },
 })
 
+-- configure typescript server with plugin
+lspconfig["gopls"].setup({
+  server = {
+    capabilities = capabilities,
+    on_attach = on_attach,
+  },
+})
+
 -- configure angular language server
 lspconfig["angularls"].setup({
   capabilities = capabilities,
