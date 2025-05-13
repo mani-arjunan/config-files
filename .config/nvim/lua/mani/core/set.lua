@@ -34,4 +34,4 @@ vim.g.gruvbox_contrast = 'soft'
 vim.g.gruvbox_transparent_mode = 1
 
 -- hide fold related numbers
-vim.opt.foldcolumn=0
+vim.opt.foldcolumn="0"
