@@ -1,5 +1,27 @@
 alias gc="git checkout"
+alias nf="neofetch"
 alias gcn="git checkout -b"
 alias gpull="git pull origin"
 alias gpush="git push origin"
-alias load-envs='function _gco(){ eval "$(ansible-vault view ~/secrets/secret.sh)"; }; _gco'
+alias nv="node --version"
+alias sz="source ~/.zshrc"
+
+function load-envs {
+  repo="$1"
+  environment="$2"
+
+  allowed_repos=("")
+  if [[ ! " ${allowed_repos[*]} " =~ " $repo " ]]; then
+    echo "You don't know what u r doing :(, Unknown repo: $repo"
+    return 1
+  fi
+
+  if [[ -z "$environment" ]]; then
+    echo "Loading $repo:default secrets"
+    eval "$(ansible-vault view "$HOME/secrets/$repo/secret.sh")"
+  else
+    echo "Loading $repo:$environment secrets"
+    eval "$(ansible-vault view "$HOME/secrets/$repo/$environment/secret.sh")"
+  fi
+}
+
