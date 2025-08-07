@@ -1,4 +1,6 @@
 alias gc="git checkout"
+alias ga="git add"
+alias gc="git commit"
 alias nf="neofetch"
 alias gcn="git checkout -b"
 alias gp="git pull origin"
@@ -6,6 +8,7 @@ alias gpo="git push origin"
 alias gs="git stash"
 alias nv="node --version"
 alias sz="source ~/.zshrc"
+alias lb="cd ~/personal/ladybird && ./Meta/ladybird.py run"
 
 function load-envs {
   repo="$1"
