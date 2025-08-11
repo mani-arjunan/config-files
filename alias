@@ -10,22 +10,3 @@ alias nv="node --version"
 alias sz="source ~/.zshrc"
 alias lb="cd ~/personal/ladybird && ./Meta/ladybird.py run"
 
-function load-envs {
-  repo="$1"
-  environment="$2"
-
-  allowed_repos=("")
-  if [[ ! " ${allowed_repos[*]} " =~ " $repo " ]]; then
-    echo "You don't know what u r doing :(, Unknown repo: $repo"
-    return 1
-  fi
-
-  if [[ -z "$environment" ]]; then
-    echo "Loading $repo:default secrets"
-    eval "$(ansible-vault view "$HOME/secrets/$repo/secret.sh")"
-  else
-    echo "Loading $repo:$environment secrets"
-    eval "$(ansible-vault view "$HOME/secrets/$repo/$environment/secret.sh")"
-  fi
-}
-
