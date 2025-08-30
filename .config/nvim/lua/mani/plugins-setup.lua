@@ -192,7 +192,14 @@ return packer.startup(function(use)
   use("adelarsq/image_preview.nvim")
 
   -- git worktree with telescope support
-  use("ThePrimeagen/git-worktree.nvim")
+  -- use("ThePrimeagen/git-worktree.nvim")
+
+   use {
+    '~/.config/nvim/custom-plugin/worktree',
+    config = function()
+      require('worktree').setup()
+    end
+   }
 
   if packer_bootstrap then
     require("packer").sync()
