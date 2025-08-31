@@ -6,6 +6,7 @@ local pickers = require("telescope.pickers")
 local finders = require("telescope.finders")
 local conf = require("telescope.config").values
 local actions = require("telescope.actions")
+local themes = require('telescope.themes')
 local action_state = require("telescope.actions.state")
 
 local function repo_root()
@@ -197,7 +198,10 @@ local function open_picker(mode)
   end
 
   pickers
-      .new({}, {
+      .new(themes.get_dropdown({
+        prompt_title = 'Git Worktrees',
+        previewer = false,
+      }), {
         finder = finders.new_table({
           results = items,
           entry_maker = function(item)
