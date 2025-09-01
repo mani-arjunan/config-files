@@ -108,32 +108,8 @@ keymap.set("n", "ce", "c$")
 
 keymap.set("n", "<leader>rs", ":LspRestart<CR>") -- mapping to restart lsp if necessary
 
--- barbartabs keymaps
-
-keymap.set("n", "<A-a>", "<Cmd>BufferPrevious<CR>", opts)
-keymap.set("n", "<A-d>", "<Cmd>BufferNext<CR>", opts)
-keymap.set("n", "<A-<>", "<Cmd>BufferMovePrevious<CR>", opts)
-keymap.set("n", "<A->>", "<Cmd>BufferMoveNext<CR>", opts)
-keymap.set("n", "<leader>2", "<Cmd>BufferGoto 1<CR>", opts)
-keymap.set("n", "<leader>2", "<Cmd>BufferGoto 2<CR>", opts)
-keymap.set("n", "<leader>3", "<Cmd>BufferGoto 3<CR>", opts)
-keymap.set("n", "<leader>4", "<Cmd>BufferGoto 4<CR>", opts)
-keymap.set("n", "<leader>5", "<Cmd>BufferGoto 5<CR>", opts)
-keymap.set("n", "<leader>6", "<Cmd>BufferGoto 6<CR>", opts)
-keymap.set("n", "<leader>7", "<Cmd>BufferGoto 7<CR>", opts)
-keymap.set("n", "<leader>8", "<Cmd>BufferGoto 8<CR>", opts)
-keymap.set("n", "<leader>9", "<Cmd>BufferGoto 9<CR>", opts)
-keymap.set("n", "<leader>0", "<Cmd>BufferLast<CR>", opts)
-keymap.set("n", "<A-p>", "<Cmd>BufferPin<CR>", opts)
-keymap.set("n", "<A-q>", "<Cmd>BufferClose<CR>", opts)
-keymap.set("n", "<C-p>", "<Cmd>BufferPick<CR>", opts)
-keymap.set("n", "<leader>bb", "<Cmd>BufferOrderByBufferNumber<CR>", opts)
-keymap.set("n", "<leader>bd", "<Cmd>BufferOrderByDirectory<CR>", opts)
-keymap.set("n", "<leader>bl", "<Cmd>BufferOrderByLanguage<CR>", opts)
-keymap.set("n", "<leader>bw", "<Cmd>BufferOrderByWindowNumber<CR>", opts)
-
--- format
-keymap.set("n", "<C-s>", ":lua vim.lsp.buf.format()<CR>")
+-- keymap.set("n", "<c-s>", ":lua vim.lsp.buf.format()<cr>")
+keymap.set("n", "<c-s>", ":lua require('conform').format()<cr>")
 
 -- Trouble
 keymap.set("n", "<leader>tt", "<Cmd>Trouble<CR>")
@@ -146,57 +122,16 @@ keymap.set("n", "<C-p>", "<Cmd>cprev<CR>")
 keymap.set("n", "<C-f>", "<Cmd>:silent !tmux neww ~/fzf_open.sh<CR>")
 keymap.set("n", "<C-q>", "<Cmd>:silent !tmux neww ~/fzf_queries.sh<CR>")
 keymap.set("n", "<leader>k", "<Cmd>:silent !~/tmux-kill-session.sh<CR>")
---
-local parse_entry = function(entry)
-  local parsed = vim.split(entry, "%s+")
-  return { path = parsed[1], hash = parsed[2], branch = parsed[3]:sub(2, #parsed[3] - 1) }
-end
-
-local delete_worktree = function(selected, _)
-  local parsed = parse_entry(selected[1])
-  vim.ui.input({
-    prompt = string.format("Delete worktree %s? [y/N] ", parsed.branch),
-  }, function(input)
-    if vim.trim(input):lower() == "y" then
-      require("git-worktree").delete_worktree(parsed.branch, true)
-    end
-  end)
-end
 
 -- git-worktree remap
 keymap.set("n", "<leader>gw", function()
-  require("nvim-tree.api").tree.close()
-  require("telescope").extensions.git_worktree.git_worktrees()
-end)
-
-keymap.set("n", "<leader>gwc", function()
-  require("nvim-tree.api").tree.close()
-  require("telescope").extensions.git_worktree.create_git_worktrees()
+  vim.cmd("Worktrees")
 end)
 
 keymap.set("n", "<leader>gwd", function()
-  -- Get the list of worktrees
-  vim.fn.jobstart("git worktree list", {
-    stdout_buffered = true,
-    on_stdout = function(_, data)
-      if not data then
-        return
-      end
-      local worktrees = vim.tbl_filter(function(entry)
-        return entry ~= ""
-      end, data)
+  vim.cmd("WorktreesDelete")
+end)
 
-      -- Show a selection menu
-      vim.ui.select(worktrees, {
-        prompt = "Select worktree to delete",
-        format_item = function(item)
-          return item
-        end,
-      }, function(selected)
-        if selected then
-          delete_worktree({ selected }, nil)
-        end
-      end)
-    end,
-  })
-end, { desc = "Delete Git Worktree" })
+keymap.set("n", "<leader>gwf", function()
+  vim.cmd("WorktreesFetch")
+end)
