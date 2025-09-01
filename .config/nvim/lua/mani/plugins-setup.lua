@@ -77,9 +77,6 @@ return packer.startup(function(use)
 
   use("nvim-tree/nvim-web-devicons")
 
-  -- statusline
-  use("nvim-lualine/lualine.nvim")
-
   -- fuzzy finding w/ telescope
   use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" }) -- dependency for better sorting performance
   use({ "nvim-telescope/telescope.nvim", branch = "0.1.x" }) -- fuzzy finder
@@ -129,7 +126,7 @@ return packer.startup(function(use)
   use("onsails/lspkind.nvim") -- vs-code like icons for autocompletion
 
   -- formatting & linting
-  use("jose-elias-alvarez/null-ls.nvim") -- configure formatters & linters
+  use("stevearc/conform.nvim")
   use("WhoIsSethDaniel/mason-tool-installer.nvim")
 
   -- treesitter configuration
@@ -155,20 +152,11 @@ return packer.startup(function(use)
   -- git integration
   use("lewis6991/gitsigns.nvim") -- show line modifications on left hand side
 
-  -- -- tabs
-  -- use("romgrk/barbar.nvim")
-
   -- primeagen vimbegood game(helpful to get used to vim keystrokes)
   use("ThePrimeagen/vim-be-good")
 
-  -- IndentLines
-  use("lukas-reineke/indent-blankline.nvim")
-
   -- Git plugin
   use("tpope/vim-fugitive")
-
-  use("MunifTanjim/nui.nvim")
-  use({ "kawre/leetcode.nvim" }, { requires = "MunifTanjim/nui.nvim" })
 
   -- Function fold
   use("kevinhwang91/promise-async")
@@ -191,15 +179,12 @@ return packer.startup(function(use)
   -- image preview
   use("adelarsq/image_preview.nvim")
 
-  -- git worktree with telescope support
-  -- use("ThePrimeagen/git-worktree.nvim")
-
-   use {
-    '~/.config/nvim/custom-plugin/worktree',
+  use({
+    "~/.config/nvim/custom-plugin/worktree",
     config = function()
-      require('worktree').setup()
-    end
-   }
+      require("worktree").setup()
+    end,
+  })
 
   if packer_bootstrap then
     require("packer").sync()
