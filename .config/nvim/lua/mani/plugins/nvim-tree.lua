@@ -21,6 +21,11 @@ nvimtree.setup({
   -- disable window_picker for
   -- explorer to work well with
   -- window splits
+  update_focused_file = {
+    enable = true,
+    update_root = true,
+    ignore_list = { "TelescopePrompt" }, -- prevent collapse on telescope
+  },
   actions = {
     open_file = {
       window_picker = {
