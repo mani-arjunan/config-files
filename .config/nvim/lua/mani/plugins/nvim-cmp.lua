@@ -16,9 +16,6 @@ if not lspkind_status then
   return
 end
 
--- load vs-code like snippets from plugins (e.g. friendly-snippets)
-require("luasnip/loaders/from_vscode").lazy_load()
-
 vim.opt.completeopt = "menu,menuone,noselect"
 
 cmp.setup({
@@ -43,11 +40,4 @@ cmp.setup({
     { name = "buffer" }, -- text within current buffer
     { name = "path" }, -- file system paths
   }),
-  -- configure lspkind for vs-code like icons
-  formatting = {
-    format = lspkind.cmp_format({
-      maxwidth = 50,
-      ellipsis_char = "...",
-    }),
-  },
 })
