@@ -1,13 +1,35 @@
 local M = {}
 
-pcall(require, "telescope")
+local _, telescope = pcall(require, "telescope")
+telescope.setup({
+  defaults = {
+    preview = { hide_on_startup = true },
+    buffer_previewer_maker = function()
+    end,
+  }
+})
 
 local pickers = require("telescope.pickers")
 local finders = require("telescope.finders")
 local conf = require("telescope.config").values
-local actions = require("telescope.actions")
 local themes = require('telescope.themes')
+local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
+
+local function get_create_repo_root()
+  local dir = vim.loop.cwd()
+  -- using this only when creating a worktree, coz i dont want to create inside another branch
+  while dir ~= "/" do
+    if
+        vim.fn.isdirectory(dir .. "/worktrees") == 1 or
+        (vim.fn.isdirectory(dir .. "/refs") == 1 and vim.fn.isdirectory(dir .. "/info") == 1)
+    then
+      return dir
+    end
+    dir = vim.fn.fnamemodify(dir, ":h")
+  end
+  return nil
+end
 
 local function repo_root()
   local dir = vim.loop.cwd()
@@ -15,7 +37,7 @@ local function repo_root()
   while dir ~= "/" do
     if
         vim.fn.isdirectory(dir .. "/.git") == 1 or
-        vim.fn.isdirectory(dir .. "/worktrees") or
+        vim.fn.isdirectory(dir .. "/worktrees") == 1 or
         (vim.fn.isdirectory(dir .. "/refs") == 1 and vim.fn.isdirectory(dir .. "/info") == 1)
     then
       return dir
@@ -70,6 +92,10 @@ local function switch_to(worktree)
     end
   end
 
+  vim.schedule(function()
+    print(worktree.path)
+  end)
+
   vim.cmd("cd " .. worktree.path)
 
   local ok, api = pcall(require, "nvim-tree.api")
@@ -117,8 +143,8 @@ local function fetch_remote_branch(root, branch)
   switch_to({ path = path, branch = branch })
 end
 
-local function create_worktree(root)
-  root = root or repo_root()
+local function create_worktree()
+  local root = get_create_repo_root()
   if not root then
     vim.notify("Not inside a git repo")
     return
@@ -126,7 +152,7 @@ local function create_worktree(root)
 
   local branch_details = { base_branch = nil, new_branch = nil, path = nil }
 
-  vim.ui.input({ prompt = "Base branch to create ur new branch: " }, function(base)
+  vim.ui.input({ prompt = "Base branch: " }, function(base)
     if not base or base == "" then
       return
     end
@@ -153,7 +179,7 @@ local function create_worktree(root)
         local res = vim.system(args, { text = true, cwd = root }):wait()
         local out = vim.split(res.stdout or "", "\n", { trimempty = true })
 
-        if code ~= 0 then
+        if res.code ~= 0 then
           vim.notify("Failed to add worktree")
           return
         end
@@ -172,11 +198,12 @@ local function delete_worktree(worktree, root)
 
   local branch = worktree.branch
 
-  vim.cmd("!git worktree remove " .. worktree.path)
+  vim.cmd("!git worktree remove " .. worktree.path .. " --force")
   vim.cmd("!rm -rf " .. root .. "/refs/heads " .. branch)
 
+  local path = root .. "/main"
   if is_current_path then
-    switch_to(root .. "/main")
+    switch_to({ path = path, branch = "main" })
   end
 end
 
@@ -187,19 +214,26 @@ local function open_picker(mode)
     return
   end
 
+  local prompt_title = 'Git Worktrees'
   local items
   if mode == "fetch" then
     items = list_remote_branches(root)
+    prompt_title = "Git Worktrees - remote"
   else
     items = list_worktrees(root)
     if mode == "switch" then
       table.insert(items, 1, { path = root, branch = "Create new worktree…", _create = true })
+      prompt_title = "Git Worktrees - local"
     end
+  end
+
+  if mode == "delete" then
+    prompt_title = "Delete Worktrees"
   end
 
   pickers
       .new(themes.get_dropdown({
-        prompt_title = 'Git Worktrees',
+        prompt_title = prompt_title,
         previewer = false,
       }), {
         finder = finders.new_table({
@@ -220,17 +254,17 @@ local function open_picker(mode)
             if not selection or not selection.value then
               return
             end
-            local value = selection.value  
+            local value = selection.value
 
             if mode == "delete" then
               delete_worktree(value, root)
             elseif mode == "create" then
-              create_worktree(root)
+              create_worktree()
             elseif mode == "fetch" then
               fetch_remote_branch(root, value)
             else
               if value._create then
-                create_worktree(root)
+                create_worktree()
               else
                 switch_to(value)
               end
@@ -257,9 +291,9 @@ function M.fetch()
 end
 
 function M.setup()
-  vim.api.nvim_create_user_command("Worktrees", M.open)
-  vim.api.nvim_create_user_command("WorktreesDelete", M.delete)
-  vim.api.nvim_create_user_command("WorktreesFetch", M.fetch)
+  vim.api.nvim_create_user_command("Worktrees", M.open, {})
+  vim.api.nvim_create_user_command("WorktreesDelete", M.delete, {})
+  vim.api.nvim_create_user_command("WorktreesFetch", M.fetch, {})
 end
 
 return M
