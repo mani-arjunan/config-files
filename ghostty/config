@@ -1,0 +1,25 @@
+config-file = ghostty-theme
+
+auto-update-channel = tip
+# background-image = ~/Documents/wallpapers/Anime-Girl3.png
+background-image-fit = stretch
+background-image-opacity = 0.08
+cursor-style = block
+cursor-style-blink = true
+shell-integration-features = no-cursor
+custom-shader = shaders/bloom025.glsl
+window-padding-x = 4,2
+window-padding-y = 6,0
+font-family = "JetBrainsMono Nerd Font"
+font-size = 21
+macos-titlebar-style = hidden
+confirm-close-surface = false
+keybind = cmd+s=toggle_quick_terminal
+macos-option-as-alt = right
+quick-terminal-animation-duration = 0.08
+keybind = super+i=inspector:toggle
+keybind = super+r=reload_config
+macos-icon = official
+background-opacity = 1
+background-blur = true
+unfocused-split-opacity = 0.7
