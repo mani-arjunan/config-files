@@ -1,4 +1,6 @@
 function load-envs {
+  read op_password
+
   repo="$1"
   environment="$2"
 
@@ -12,9 +14,9 @@ function load-envs {
 
   if [[ -z "$environment" ]]; then
     echo "Loading $repo:default secrets"
-    eval "$(ansible-vault view "$HOME/secrets/$repo/secret.sh")"
+    eval "$(ansible-vault view "$HOME/secrets/$repo/secret.sh" --vault-password-file <(echo "$op_password"))"
   else
     echo "Loading $repo:$environment secrets"
-    eval "$(ansible-vault view "$HOME/secrets/$repo/$environment/secret.sh")"
+    eval "$(ansible-vault view "$HOME/secrets/$repo/secret.sh" --vault-password-file <(echo "$op_password"))"
   fi
 }
