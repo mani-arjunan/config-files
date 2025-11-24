@@ -131,7 +131,6 @@ return packer.startup(function(use)
   })
 
   -- AST
-
   use({
     "nvim-treesitter/playground",
     cmd = "TSPlaygroundToggle",
@@ -139,7 +138,7 @@ return packer.startup(function(use)
 
   -- auto closing
   use("windwp/nvim-autopairs") -- autoclose parens, brackets, quotes, etc...
-  use({ "windwp/nvim-ts-autotag", after = "nvim-treesitter" }) -- autoclose tags
+  use("windwp/nvim-ts-autotag") -- autoclose tags
 
   -- git integration
   use("lewis6991/gitsigns.nvim") -- show line modifications on left hand side
@@ -166,8 +165,6 @@ return packer.startup(function(use)
     end,
   })
 
-  use("xiyaowong/transparent.nvim")
-
   -- image preview
   use("adelarsq/image_preview.nvim")
 
@@ -182,3 +179,4 @@ return packer.startup(function(use)
     require("packer").sync()
   end
 end)
+
