@@ -4,35 +4,24 @@ if not status then
   return
 end
 
--- configure treesitter
-treesitter.setup({
-  -- enable syntax highlighting
-  highlight = {
-    enable = true,
-  },
-  -- enable indentation
-  indent = { enable = true },
-  -- enable autotagging (w/ nvim-ts-autotag plugin)
-  autotag = { enable = true },
-  -- ensure these language parsers are installed
+treesitter.setup {
+  sync_install = false,
+  ignore_install = {  },
   ensure_installed = {
-    "json",
     "javascript",
     "typescript",
-    "tsx",
+    "json",
+    "lua",
     "yaml",
     "html",
     "css",
-    "markdown",
-    "markdown_inline",
-    "svelte",
-    "graphql",
     "bash",
-    "lua",
-    "vim",
-    "dockerfile",
-    "gitignore",
   },
-  -- auto install above language parsers
+  highlight = {
+    enable = true,
+  },
   auto_install = true,
-})
+  indent = {
+    enable = true,
+  },
+}
