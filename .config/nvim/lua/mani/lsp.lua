@@ -8,4 +8,5 @@ vim.lsp.enable({
   "graphql",
   "csharp_ls",
   "css_ls",
+  "clangd"
 })
