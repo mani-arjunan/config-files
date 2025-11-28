@@ -118,6 +118,11 @@ keymap.set("n", "<leader>tt", "<Cmd>Trouble<CR>")
 keymap.set("n", "<C-n>", "<Cmd>cnext<CR>")
 keymap.set("n", "<C-p>", "<Cmd>cprev<CR>")
 
+-- some actions on lsp current buffer
+keymap.set("n", "<leader>ca", function () vim.lsp.buf.code_action() end, opts)
+keymap.set("n", "<leader>rn", function () vim.lsp.buf.rename() end, opts)
+
+
 -- for fuzzyfinder
 keymap.set("n", "<C-f>", "<Cmd>:silent !tmux neww ~/fzf_open.sh<CR>")
 keymap.set("n", "<C-q>", "<Cmd>:silent !tmux neww ~/fzf_queries.sh<CR>")
