@@ -4,15 +4,14 @@ local _, telescope = pcall(require, "telescope")
 telescope.setup({
   defaults = {
     preview = { hide_on_startup = true },
-    buffer_previewer_maker = function()
-    end,
-  }
+    buffer_previewer_maker = function() end,
+  },
 })
 
 local pickers = require("telescope.pickers")
 local finders = require("telescope.finders")
 local conf = require("telescope.config").values
-local themes = require('telescope.themes')
+local themes = require("telescope.themes")
 local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
 
@@ -21,8 +20,8 @@ local function get_create_repo_root()
   -- using this only when creating a worktree, coz i dont want to create inside another branch
   while dir ~= "/" do
     if
-        vim.fn.isdirectory(dir .. "/worktrees") == 1 or
-        (vim.fn.isdirectory(dir .. "/refs") == 1 and vim.fn.isdirectory(dir .. "/info") == 1)
+      vim.fn.isdirectory(dir .. "/worktrees") == 1
+      or (vim.fn.isdirectory(dir .. "/refs") == 1 and vim.fn.isdirectory(dir .. "/info") == 1)
     then
       return dir
     end
@@ -36,9 +35,9 @@ local function repo_root()
   -- not sure looping untill the root be the right one, i will optimize it later.
   while dir ~= "/" do
     if
-        vim.fn.isdirectory(dir .. "/.git") == 1 or
-        vim.fn.isdirectory(dir .. "/worktrees") == 1 or
-        (vim.fn.isdirectory(dir .. "/refs") == 1 and vim.fn.isdirectory(dir .. "/info") == 1)
+      vim.fn.isdirectory(dir .. "/.git") == 1
+      or vim.fn.isdirectory(dir .. "/worktrees") == 1
+      or (vim.fn.isdirectory(dir .. "/refs") == 1 and vim.fn.isdirectory(dir .. "/info") == 1)
     then
       return dir
     end
@@ -69,14 +68,25 @@ local function list_worktrees(root)
   local out = vim.split(res.stdout or "", "\n", { trimempty = true })
 
   local items = {}
+  local current_branch = vim.trim(vim.fn.system("git rev-parse --abbrev-ref HEAD")) or ""
+  local current_item = nil
   for _, l in ipairs(out) do
-    if l and vim.trim(l) ~= "" then
+    if l and vim.trim(l) ~= "" and not l:find("%(bare%)") then
       local wt = parse_worktree_line(l)
       if wt.path then
-        table.insert(items, wt)
+        if wt.branch == current_branch then
+          current_item = wt -- store current branch separately
+        else
+          table.insert(items, wt)
+        end
       end
     end
   end
+
+  if current_item then
+    table.insert(items, 1, current_item)
+  end
+
   return items
 end
 
@@ -106,26 +116,35 @@ local function switch_to(worktree)
     -- won't work in anyother system other than mani, custom configured to
     -- have same directory across my horizontal tmux windows
     -- FYI i had this hook at primeagen plugin as well
-    local handle = io.popen("tmux display-message -p '#S'")
-    if handle then
-      local session_name = handle:read("*a"):gsub("%s+", "")
-      handle:close()
+    local in_tmux = os.getenv("TMUX") ~= nil
+    if in_tmux then
+      local handle = io.popen("tmux display-message -p '#S'")
+      if handle then
+        local session_name = handle:read("*a"):gsub("%s+", "")
+        handle:close()
 
-      local current_window_handle = io.popen("tmux display-message -p '#I'")
-      if current_window_handle then
-        local current_window = current_window_handle:read("*a"):gsub("%s+", "")
-        current_window_handle:close()
+        local current_window_handle = io.popen("tmux display-message -p '#I'")
+        if current_window_handle then
+          local current_window = current_window_handle:read("*a"):gsub("%s+", "")
+          current_window_handle:close()
 
-        local win_handle = io.popen("tmux list-windows -t " .. session_name .. " -F '#I'")
-        if win_handle then
-          for win in win_handle:lines() do
-            if win ~= current_window then
-              local cmd =
+          local win_handle = io.popen("tmux list-windows -t " .. session_name .. " -F '#I'")
+          if win_handle then
+            for win in win_handle:lines() do
+              if win ~= current_window then
+                local cmd =
                   string.format("tmux send-keys -t %s:%s 'cd %s && clear' C-m", session_name, win, worktree.path)
-              os.execute(cmd)
+                os.execute(cmd)
+                local critiqueCmd = string.format(
+                  "tmux send-keys -t %s:- 'cd %s && critique --watch' C-m",
+                  session_name,
+                  worktree.path
+                )
+                os.execute(critiqueCmd)
+              end
             end
+            win_handle:close()
           end
-          win_handle:close()
         end
       end
     end
@@ -152,7 +171,7 @@ local function create_worktree()
 
   local branch_details = { base_branch = nil, new_branch = nil, path = nil }
 
-  vim.ui.input({ prompt = "Base branch: " }, function(base)
+  vim.ui.input({ prompt = "Base branch: ", default = "main" }, function(base)
     if not base or base == "" then
       return
     end
@@ -174,8 +193,15 @@ local function create_worktree()
         end
         branch_details.path = vim.fn.fnamemodify(p, ":p")
 
-        local args = { "git", "worktree", "add", "-b", branch_details.new_branch, branch_details.path, branch_details
-            .base_branch }
+        local args = {
+          "git",
+          "worktree",
+          "add",
+          "-b",
+          branch_details.new_branch,
+          branch_details.path,
+          branch_details.base_branch,
+        }
         local res = vim.system(args, { text = true, cwd = root }):wait()
         local out = vim.split(res.stdout or "", "\n", { trimempty = true })
 
@@ -214,7 +240,7 @@ local function open_picker(mode)
     return
   end
 
-  local prompt_title = 'Git Worktrees'
+  local prompt_title = "Git Worktrees"
   local items
   if mode == "fetch" then
     items = list_remote_branches(root)
@@ -232,16 +258,31 @@ local function open_picker(mode)
   end
 
   pickers
-      .new(themes.get_dropdown({
+    .new(
+      themes.get_dropdown({
         prompt_title = prompt_title,
         previewer = false,
-      }), {
+      }),
+      {
         finder = finders.new_table({
           results = items,
           entry_maker = function(item)
+            local current_branch = vim.trim(vim.fn.system("git rev-parse --abbrev-ref HEAD")) or ""
+
+            local display
+            if item.branch then
+              if item.branch == current_branch then
+                display = "* " .. item.branch
+              else
+                display = "  " .. item.branch
+              end
+            else
+              display = tostring(item)
+            end
+
             return {
               value = item,
-              display = item.branch or item.path or item,
+              display = display,
               ordinal = item.branch or item.path or item,
             }
           end,
@@ -274,8 +315,9 @@ local function open_picker(mode)
           actions.select_default:replace(on_select)
           return true
         end,
-      })
-      :find()
+      }
+    )
+    :find()
 end
 
 function M.open()
