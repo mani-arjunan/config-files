@@ -42,6 +42,7 @@ return packer.startup(function(use)
   use("rose-pine/neovim")
   use("sainnhe/gruvbox-material")
   use("ilof2/posterpole.nvim")
+  use("neanias/everforest-nvim")
   -- ColorSchemes
 
   use("christoomey/vim-tmux-navigator") -- tmux & split window navigation
@@ -168,6 +169,11 @@ return packer.startup(function(use)
   -- image preview
   use("adelarsq/image_preview.nvim")
 
+  -- undotree
+  use("mbbill/undotree")
+
+  use('MunifTanjim/nui.nvim')
+
   use({
     "~/.config/nvim/custom-plugin/worktree",
     config = function()
@@ -175,8 +181,18 @@ return packer.startup(function(use)
     end,
   })
 
+  use({
+    "~/.config/nvim/custom-plugin/ai-helper",
+    config = function()
+      require("ai-helper").setup({
+        llm_url = "https://llm-gateway.internal.latest.acvauctions.com/openai",
+        api_key = os.getenv("OPENAI_API_KEY") or "",
+        model = "google/gemini-2.5-flash"
+      })
+    end,
+  })
+
   if packer_bootstrap then
     require("packer").sync()
   end
 end)
-
