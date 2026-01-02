@@ -17,7 +17,7 @@ keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 -- keymap.set copy and paste selected text
-keymap.set("x", "<leader>p", '"_dp')
+keymap.set("x", "<leader>p", '\"_dP')
 
 -- keymap.set navigations in insert mode
 keymap.set("i", "<C-k>", "<Up>")
@@ -89,9 +89,33 @@ keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>") -- list available 
 keymap.set("n", "<leader>gr", "<Cmd>Telescope lsp_references<CR>")
 keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>")
 keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>")
--- keymap.set("n", "gd", function()
---     require("telescope.builtin").lsp_definitions({ jump_type = "never" })
--- end, opts)
+keymap.set("n", "<leader>fr", function()
+  local api = require("nvim-tree.api")
+  local file = vim.api.nvim_buf_get_name(0)
+
+  if not require("nvim-tree.view").is_visible() then
+    api.tree.open()
+  end
+
+  if file ~= "" then
+    api.tree.change_root(vim.fn.fnamemodify(file, ":p:h"))
+  end
+end)
+
+keymap.set("n", "<leader>pr", function()
+  local api = require("nvim-tree.api")
+  local root = vim.g.nvim_startup_root
+
+  if not root or root == "" then
+    return
+  end
+
+  if not require("nvim-tree.view").is_visible() then
+    api.tree.open()
+  end
+
+  api.tree.change_root(root)
+end)
 
 -- telescope git commands (not on youtube nvim video)
 keymap.set("n", "<leader>gc", "<cmd>Telescope git_commits<cr>") -- list all git commits (use <cr> to checkout) ["gc" for git commits]
@@ -118,15 +142,17 @@ keymap.set("n", "<leader>tt", "<Cmd>Trouble<CR>")
 keymap.set("n", "<C-n>", "<Cmd>cnext<CR>")
 keymap.set("n", "<C-p>", "<Cmd>cprev<CR>")
 
--- some actions on lsp current buffer
-keymap.set("n", "<leader>ca", function () vim.lsp.buf.code_action() end, opts)
-keymap.set("n", "<leader>rn", function () vim.lsp.buf.rename() end, opts)
-
-
 -- for fuzzyfinder
 keymap.set("n", "<C-f>", "<Cmd>:silent !tmux neww ~/fzf_open.sh<CR>")
 keymap.set("n", "<C-q>", "<Cmd>:silent !tmux neww ~/fzf_queries.sh<CR>")
 keymap.set("n", "<leader>k", "<Cmd>:silent !~/tmux-kill-session.sh<CR>")
+
+-- some actions on lsp current buffer
+keymap.set("n", "<leader>ca", function () vim.lsp.buf.code_action() end, opts)
+keymap.set("n", "<leader>rn", function () vim.lsp.buf.rename() end, opts)
+
+-- undotree
+keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
 
 -- git-worktree remap
 keymap.set("n", "<leader>gw", function()
