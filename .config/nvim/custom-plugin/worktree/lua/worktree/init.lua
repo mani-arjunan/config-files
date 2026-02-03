@@ -51,7 +51,7 @@ local function list_remote_branches(root)
   local out = vim.split(res.stdout or "", "\n", { trimempty = true })
   local items = {}
   for _, l in ipairs(out) do
-    table.insert(items, l)
+    table.insert(items, { branch = l })
   end
   return items
 end
@@ -68,7 +68,8 @@ local function list_worktrees(root)
   local out = vim.split(res.stdout or "", "\n", { trimempty = true })
 
   local items = {}
-  local current_branch = vim.trim(vim.fn.system("git rev-parse --abbrev-ref HEAD")) or ""
+  local current_branch_res = vim.system({ "git", "rev-parse", "--abbrev-ref", "HEAD" }, { text = true, cwd = root }):wait()
+  local current_branch = vim.trim(current_branch_res.stdout or "") or ""
   local current_item = nil
   for _, l in ipairs(out) do
     if l and vim.trim(l) ~= "" and not l:find("%(bare%)") then
@@ -135,12 +136,6 @@ local function switch_to(worktree)
                 local cmd =
                   string.format("tmux send-keys -t %s:%s 'cd %s && clear' C-m", session_name, win, worktree.path)
                 os.execute(cmd)
-                local critiqueCmd = string.format(
-                  "tmux send-keys -t %s:- 'cd %s && critique --watch' C-m",
-                  session_name,
-                  worktree.path
-                )
-                os.execute(critiqueCmd)
               end
             end
             win_handle:close()
@@ -242,6 +237,9 @@ local function open_picker(mode)
 
   local prompt_title = "Git Worktrees"
   local items
+  local current_branch_res = vim.system({ "git", "rev-parse", "--abbrev-ref", "HEAD" }, { text = true, cwd = root }):wait()
+  local current_branch = vim.trim(current_branch_res.stdout or "") or ""
+
   if mode == "fetch" then
     items = list_remote_branches(root)
     prompt_title = "Git Worktrees - remote"
@@ -267,8 +265,6 @@ local function open_picker(mode)
         finder = finders.new_table({
           results = items,
           entry_maker = function(item)
-            local current_branch = vim.trim(vim.fn.system("git rev-parse --abbrev-ref HEAD")) or ""
-
             local display
             if item.branch then
               if item.branch == current_branch then
