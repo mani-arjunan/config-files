@@ -5,6 +5,8 @@ require("conform").setup({
     javascript = { "eslint_d" },
     typescript = { "eslint_d" },
     elixir = { "mix" },
+    rust = { "rustfmt" },
+    python = { "pylsp" }
   },
 })
 
