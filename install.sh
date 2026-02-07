@@ -70,7 +70,7 @@ install_zsh() {
 install_fzf() {
   echo "Installing fzf...\n"
   git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-  ~/.fzf/install --all
+  echo 'export PATH="$HOME/.fzf/bin:$PATH"' >> ~/.bashrc
 }
 
 install_ripgrep() {
