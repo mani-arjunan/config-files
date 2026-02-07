@@ -311,8 +311,6 @@ install_lsp_servers() {
       echo "2. Installing lua-language-server...\n"
       brew install lua-language-server
     else
-
-    fi
   fi
 
   if ! command_exists rust-analyzer; then
