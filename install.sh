@@ -190,17 +190,13 @@ install_powerlevel10k() {
 }
 
 setup_zshrc() {
-    echo "Setting up Zsh configuration...\n"
+ echo -e "Setting up Zsh configuration...\n"
 
-    local zshrc_path="$HOME/.zshrc"
+  local zshrc_path="$HOME/.zshrc"
 
-    if [[ -f "$zshrc_path" ]]; then
-        echo "Existing .zshrc found...\n"
-    else
-      echo "Creating symlink: $zshrc_path -> $SCRIPT_DIR/.zshrc...\n"
-      ln -sf "$SCRIPT_DIR/.zshrc" "$zshrc_path"
-      echo "Zshrc config symlinked...\n"
-    fi
+  ln -sf "$SCRIPT_DIR/.zshrc" "$zshrc_path"
+
+  echo "Zshrc config symlinked...\n"
 }
 
 setup_shell_aliases() {
