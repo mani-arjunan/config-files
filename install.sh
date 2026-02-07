@@ -74,8 +74,11 @@ install_fzf() {
 
   FZF_DIR="$HOME/.fzf"
 
+  execute_sudo_command rm -rf "$FZF_DIR"
+
   if [[ -d "$FZF_DIR" ]]; then
     echo "fzf already installed...\n"
+    echo 'export PATH="$HOME/.fzf/bin:$PATH"' >> ~/.zshrc
     return
   fi
 
@@ -140,7 +143,7 @@ install_ansible() {
   if [[ "$IS_MAC" == true ]]; then
     brew install ansible
   else
-    execute_sudo_command apt update && execute_sudo_command apt install ansible
+    execute_sudo_command apt update && execute_sudo_command -y apt install ansible
   fi
 }
 
@@ -194,6 +197,7 @@ setup_zshrc() {
 
   local zshrc_path="$HOME/.zshrc"
 
+  execute_sudo_command rm -rf ~/.zshrc
   ln -sf "$SCRIPT_DIR/.zshrc" "$zshrc_path"
 
   echo "Zshrc config symlinked...\n"
@@ -383,7 +387,7 @@ setup_secrets() {
         mkdir -p "$secrets_dir"
     fi
 
-    ln -sf "$secrets_dir/load-envs.sh" "$SCRIPT_DIR/secrets/load-envs.sh"
+    ln -sf "$SCRIPT_DIR/secrets/load-envs.sh" "$secrets_dir/load-envs.sh"
 }
 
 main() {
