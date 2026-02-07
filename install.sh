@@ -116,7 +116,7 @@ install_jq() {
 }
 
 install_ansible() {
-  log_info "Installing Ansible (pipx)"
+  echo "Installing Ansible ...\n"
   if [[ "$IS_MAC" == true ]]; then
     brew install ansible
   else
@@ -191,7 +191,7 @@ setup_shell_aliases() {
 }
 
 setup_scripts() {
-    log_info "Setting up utility scripts..."
+    echo "Setting up utility scripts...\n"
 
     local scripts=(
         "fzf_git.sh"
@@ -414,10 +414,10 @@ main() {
     echo "Neovim Configuration...\n"
     setup_neovim_config
 
-    log_info "Ghostty setup...\n"
+    echo "Ghostty setup...\n"
     setup_ghostty_config
 
-    log_info "Nerdfont setup...\n"
+    echo "Nerdfont setup...\n"
     install_nerd_fonts
 
     echo "LSP setup...\n"
