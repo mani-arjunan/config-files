@@ -72,18 +72,11 @@ install_zsh() {
 install_fzf() {
   echo "Installing fzf...\n"
 
-  FZF_DIR="$HOME/.fzf"
-
-  execute_sudo_command rm -rf "$FZF_DIR"
-
-  if [[ -d "$FZF_DIR" ]]; then
-    echo "fzf already installed...\n"
-    echo 'export PATH="$HOME/.fzf/bin:$PATH"' >> ~/.zshrc
-    return
+  if [[ "$IS_MAC" == true ]]; then
+    brew install fzf
+  else
+    execute_sudo_command apt update && execute_sudo_command apt install -y zsh
   fi
-
-  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-  echo 'export PATH="$HOME/.fzf/bin:$PATH"' >> ~/.zshrc
 }
 
 install_ripgrep() {
