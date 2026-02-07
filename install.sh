@@ -389,6 +389,7 @@ main() {
       install_homebrew
     else
       echo -e "Setting up your linux...\n"
+      install_zsh
     fi
 
     echo "Shell Configuration...\n"
@@ -403,7 +404,6 @@ main() {
     declare -A PACKAGE_TO_COMMAND=(
       [neovim]="nvim"
       [tmux]="tmux"
-      [zsh]="zsh"
       [fzf]="fzf"
       [ripgrep]="rg"
       [git]="git"
