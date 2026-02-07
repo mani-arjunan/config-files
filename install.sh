@@ -143,7 +143,7 @@ install_ansible() {
   if [[ "$IS_MAC" == true ]]; then
     brew install ansible
   else
-    execute_sudo_command apt update && execute_sudo_command -y apt install ansible
+    execute_sudo_command apt update && execute_sudo_command apt install ansible
   fi
 }
 
