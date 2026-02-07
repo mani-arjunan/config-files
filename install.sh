@@ -198,7 +198,7 @@ setup_zshrc() {
         echo "Existing .zshrc found...\n"
     else
       echo "Creating symlink: $zshrc_path -> $SCRIPT_DIR/.zshrc...\n"
-      ln -s "$SCRIPT_DIR/.zshrc" "$zshrc_path"
+      ln -sf "$SCRIPT_DIR/.zshrc" "$zshrc_path"
       echo "Zshrc config symlinked...\n"
     fi
 }
@@ -212,7 +212,7 @@ setup_shell_aliases() {
         echo "Existing alias file found...\n"
     else
         echo "Creating symlink: $aliases_path -> $SCRIPT_DIR/alias...\n"
-        ln -s "$SCRIPT_DIR/alias" "$aliases_path"
+        ln -sf "$SCRIPT_DIR/alias" "$aliases_path"
         echo "Shell aliases symlinked...\n"
     fi
 }
@@ -239,12 +239,12 @@ setup_scripts() {
                 echo "Existing $script found at $dst"
                 if prompt_user "Backup existing $script?" "y"; then
                     mv "$dst" "$dst.backup"
-                    ln -s "$src" "$dst"
+                    ln -sf "$src" "$dst"
                     chmod +x "$dst"
                     echo "$script symlinked and made executable...\n"
                 fi
             else
-                ln -s "$src" "$dst"
+                ln -sf "$src" "$dst"
                 chmod +x "$dst"
                 echo "$script symlinked and made executable...\n"
             fi
@@ -276,7 +276,7 @@ setup_tmux_config() {
         echo "Skipping setup tmux, existing .tmux.conf found...\n"
     else
       echo "Creating symlink: $tmux_conf -> $SCRIPT_DIR/.tmux.conf...\n"
-      ln -s "$SCRIPT_DIR/.tmux.conf" "$tmux_conf"
+      ln -sf "$SCRIPT_DIR/.tmux.conf" "$tmux_conf"
     fi
 }
 
@@ -293,7 +293,7 @@ setup_neovim_config() {
     else
       echo "Creating symlink: $nvim_config_dir -> $SCRIPT_DIR/.config/nvim...\n"
       mkdir -p "$(dirname "$nvim_config_dir")"
-      ln -s "$SCRIPT_DIR/.config/nvim" "$nvim_config_dir"
+      ln -sf "$SCRIPT_DIR/.config/nvim" "$nvim_config_dir"
       echo "Success!! neovim will install plugins on first startup via Packer...\n"
     fi
 }
@@ -342,7 +342,7 @@ setup_ghostty_config() {
         echo "Existing Ghostty config found...\n"
     else
         echo "Creating symlink: $ghostty_dir/config -> $SCRIPT_DIR/ghostty/config...\n"
-        ln -s "$SCRIPT_DIR/ghostty/config" "$ghostty_dir/config"
+        ln -sf "$SCRIPT_DIR/ghostty/config" "$ghostty_dir/config"
         echo "Ghostty config symlinked...\n"
     fi
 }
