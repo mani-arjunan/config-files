@@ -18,6 +18,14 @@ check_command() {
     fi
 }
 
+execute_sudo_command() {
+    if command_exists sudo; then
+      sudo "$1"
+    else
+      "$1"
+    fi
+}
+
 # For mac, homebrew install
 install_homebrew() {
     if command_exists brew; then
@@ -35,27 +43,27 @@ install_neovim() {
   if [[ "$IS_MAC" == true ]]; then
     curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-macos-arm64.tar.gz
     tar xzf nvim-macos-arm64.tar.gz
-    sudo mv nvim-macos-arm64 /opt/nvim
+    execute_sudo_command mv nvim-macos-arm64 /opt/nvim
   else
     curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
     tar xzf nvim-linux64-x86_64.tar.gz
-    sudo mv nvim-linux64-x86_64 /opt/nvim
+    execute_sudo_command mv nvim-linux64-x86_64 /opt/nvim
   fi
-  sudo ln -sf /opt/nvim/bin/nvim /usr/local/bin/nvim
+  execute_sudo_command ln -sf /opt/nvim/bin/nvim /usr/local/bin/nvim
 }
 
 install_tmux() {
   if [[ "$IS_MAC" == true ]]; then
     brew install tmux
   else
-    sudo apt update && sudo apt install -y tmux
+    execute_sudo_command apt update && execute_sudo_command apt install -y tmux
   fi
 }
 
 install_zsh() {
   if [[ "$IS_MAC" != true ]]; then
     echo "Installing zsh via apt...\n"
-    sudo apt update && sudo apt install -y zsh
+    execute_sudo_command apt update && execute_sudo_command apt install -y zsh
   fi
 }
 
@@ -70,9 +78,9 @@ install_ripgrep() {
   if [[ "$IS_MAC" == true ]]; then
     curl -LO https://github.com/BurntSushi/ripgrep/releases/download/15.1.0/ripgrep-15.1.0-aarch64-apple-darwin.tar.gz
     tar xzf ripgrep-*.tar.gz
-    sudo mv ripgrep-*/rg /usr/local/bin/
+    execute_sudo_command mv ripgrep-*/rg /usr/local/bin/
   else
-    sudo apt update && sudo apt install ripgrep
+    execute_sudo_command apt update && execute_sudo_command apt install ripgrep
   fi
 }
 
@@ -100,8 +108,8 @@ install_go() {
     curl -LO "https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz"
   fi
 
-  sudo rm -rf /usr/local/go
-  sudo tar -C /usr/local -xzf go*.tar.gz
+  execute_sudo_command rm -rf /usr/local/go
+  execute_sudo_command tar -C /usr/local -xzf go*.tar.gz
 }
 
 install_jq() {
@@ -112,7 +120,7 @@ install_jq() {
     curl -L https://github.com/jqlang/jq/releases/latest/download/jq-linux-amd64 -o jq
   fi
   chmod +x jq
-  sudo mv jq /usr/local/bin/
+  execute_sudo_command mv jq /usr/local/bin/
 }
 
 install_ansible() {
@@ -120,7 +128,7 @@ install_ansible() {
   if [[ "$IS_MAC" == true ]]; then
     brew install ansible
   else
-    sudo apt update && sudo apt install ansible
+    execute_sudo_command apt update && execute_sudo_command apt install ansible
   fi
 }
 
@@ -158,7 +166,7 @@ install_powerlevel10k() {
     if [[ "$IS_MAC" == true ]]; then
       brew install powerlevel10k
     else
-      sudo apt update && sudo apt install powerlevel10k
+      execute_sudo_command apt update && execute_sudo_command apt install powerlevel10k
     fi
 }
 
