@@ -355,6 +355,11 @@ install_nerd_fonts() {
       brew tap homebrew/cask-fonts
       brew install --cask font-jetbrains-mono-nerd-font
     else
+     if ! command_exists unzip; then
+        execute_sudo_command apt update
+        execute_sudo_command apt install -y unzip
+      fi
+
       FONT_DIR="$HOME/.local/share/fonts"
       FONT_NAME="JetBrainsMono"
       FONT_VERSION="v3.2.1"
@@ -364,7 +369,6 @@ install_nerd_fonts() {
 
       curl -LO "https://github.com/ryanoasis/nerd-fonts/releases/download/${FONT_VERSION}/${FONT_NAME}.zip"
       unzip -o "${FONT_NAME}.zip" -d "$FONT_DIR"
-
       fc-cache -fv
     fi
 }
