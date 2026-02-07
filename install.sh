@@ -46,8 +46,8 @@ install_neovim() {
     execute_sudo_command mv nvim-macos-arm64 /opt/nvim
   else
     curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
-    tar xzf nvim-linux64-x86_64.tar.gz
-    execute_sudo_command mv nvim-linux64-x86_64 /opt/nvim
+    tar xzf nvim-linux-x86_64.tar.gz
+    execute_sudo_command mv nvim-linux-x86_64 /opt/nvim
   fi
   execute_sudo_command ln -sf /opt/nvim/bin/nvim /usr/local/bin/nvim
 }
