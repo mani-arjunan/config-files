@@ -80,7 +80,7 @@ install_fzf() {
   fi
 
   git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-  echo 'export PATH="$HOME/.fzf/bin:$PATH"' >> ~/.bashrc
+  echo 'export PATH="$HOME/.fzf/bin:$PATH"' >> ~/.zshrc
 }
 
 install_ripgrep() {
@@ -120,6 +120,8 @@ install_go() {
 
   execute_sudo_command rm -rf /usr/local/go
   execute_sudo_command tar -C /usr/local -xzf go*.tar.gz
+
+  echo 'export PATH="/usr/local/go/bin:$PATH"' >> "$HOME/.zshrc"
 }
 
 install_jq() {
