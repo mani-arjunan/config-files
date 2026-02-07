@@ -69,6 +69,14 @@ install_zsh() {
 
 install_fzf() {
   echo "Installing fzf...\n"
+
+  FZF_DIR="$HOME/.fzf"
+
+  if [[ -d "$FZF_DIR" ]]; then
+    echo "fzf already installed...\n"
+    return
+  fi
+
   git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
   echo 'export PATH="$HOME/.fzf/bin:$PATH"' >> ~/.bashrc
 }
