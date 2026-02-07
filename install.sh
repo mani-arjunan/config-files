@@ -161,13 +161,22 @@ install_oh_my_zsh() {
 }
 
 install_powerlevel10k() {
-    echo "Setting up Powerlevel10k theme...\n"
+  echo -e "Setting up Powerlevel10k theme...\n"
 
-    if [[ "$IS_MAC" == true ]]; then
-      brew install powerlevel10k
-    else
-      execute_sudo_command apt update && execute_sudo_command apt install powerlevel10k
-    fi
+  P10K_DIR="$HOME/.config/powerlevel10k"
+
+  if [[ -d "$P10K_DIR" ]]; then
+    echo "Powerlevel10k already installed...\n"
+    return
+  fi
+
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$P10K_DIR"
+
+  if ! grep -q "powerlevel10k.zsh-theme" "$HOME/.zshrc"; then
+    echo 'source ~/.config/powerlevel10k/powerlevel10k.zsh-theme' >> "$HOME/.zshrc"
+  fi
+
+  echo "Powerlevel10k installed. Restart zsh to configure...\n"
 }
 
 setup_zshrc() {
