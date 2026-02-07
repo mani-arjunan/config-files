@@ -75,7 +75,7 @@ install_fzf() {
   if [[ "$IS_MAC" == true ]]; then
     brew install fzf
   else
-    execute_sudo_command apt update && execute_sudo_command apt install -y zsh
+    execute_sudo_command apt update && execute_sudo_command apt install -y fzf
   fi
 }
 
