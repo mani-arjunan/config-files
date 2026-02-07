@@ -310,7 +310,7 @@ install_lsp_servers() {
     if [[ "$IS_MAC" == true ]] && command_exists brew; then
       echo "2. Installing lua-language-server...\n"
       brew install lua-language-server
-    else
+    fi
   fi
 
   if ! command_exists rust-analyzer; then
