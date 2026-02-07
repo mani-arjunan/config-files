@@ -241,6 +241,8 @@ local function open_picker(mode)
   local current_branch = vim.trim(current_branch_res.stdout or "") or ""
 
   if mode == "fetch" then
+    vim.system({ "git", "config", "remote.origin.fetch", "+refs/heads/*:refs/remotes/origin/*" }, { cwd = root })
+    vim.system({ "git", "fetch", "--all" }, { cwd = root })
     items = list_remote_branches(root)
     prompt_title = "Git Worktrees - remote"
   else
@@ -298,7 +300,7 @@ local function open_picker(mode)
             elseif mode == "create" then
               create_worktree()
             elseif mode == "fetch" then
-              fetch_remote_branch(root, value)
+              fetch_remote_branch(root, value.branch)
             else
               if value._create then
                 create_worktree()
