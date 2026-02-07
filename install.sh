@@ -453,6 +453,8 @@ main() {
 
     echo "LSP setup...\n"
     install_lsp_servers
+
+    zsh
 }
 
 # Run main function
