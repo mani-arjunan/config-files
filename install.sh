@@ -19,11 +19,11 @@ check_command() {
 }
 
 execute_sudo_command() {
-    if command_exists sudo; then
-      sudo "$1"
-    else
-      "$1"
-    fi
+  if command_exists sudo; then
+    sudo "$@"
+  else
+    "$@"
+  fi
 }
 
 # For mac, homebrew install
