@@ -16,7 +16,9 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 alias vim="nvim"
 export PATH=$PATH:/opt/homebrew/bin
-source $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme
+if command -v brew >/dev/null 2>&1; then
+  source "$(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme"
+fi
 
 #bindings
 bindkey -s ^f "~/fzf_open.sh\n"
@@ -34,4 +36,3 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 source ~/secrets/load-envs.sh
-export PATH="/usr/local/go/bin:$PATH"
