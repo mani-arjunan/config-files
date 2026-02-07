@@ -1,26 +1,42 @@
-local opt = vim.opt -- for conciseness
+local opt = vim.opt
+local api = vim.api
 
--- -- search settings
-opt.ignorecase = true -- ignore case when searching
-opt.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive
+opt.relativenumber = true
+opt.nu = true
+opt.wrap = false
 
--- turn on termguicolors for nightfly colorscheme to work
--- (have to use iterm2 or any other true color terminal)
+opt.swapfile = false
+opt.backup = false
+opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+opt.undofile = true
+opt.hlsearch = true
+
+opt.incsearch = true
+opt.scrolloff = 999
+opt.isfname:append("@-@")
+opt.updatetime = 50
+opt.colorcolumn = ""
+opt.laststatus = 4
+opt.statusline = "%f %l:%c"
+
+api.nvim_set_hl(0, "StatusLine", { bg = "none" })
+api.nvim_set_hl(0, "StatusLineNC", { bg = "none" })
+
+opt.ignorecase = true
+opt.smartcase = true
+
 opt.termguicolors = true
-opt.background = "dark" -- colorschemes that can be light or dark will be made dark
-opt.signcolumn = "yes" -- show sign column so that text doesn't shift
+opt.background = "dark"
+opt.signcolumn = "yes"
 
--- backspace
-opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
+opt.backspace = "indent,eol,start"
 
--- clipboard
-opt.clipboard:append("unnamedplus") -- use system clipboard as default register
+opt.clipboard:append("unnamedplus")
 
--- split windows
-opt.splitright = true -- split vertical window to the right
-opt.splitbelow = true -- split horizontal window to the bottom
+opt.splitright = true
+opt.splitbelow = true
 
-opt.iskeyword:append("-") -- consider string-string as whole word
+opt.iskeyword:append("-")
 
 opt.encoding = "utf-8"
 opt.expandtab = true
@@ -28,6 +44,5 @@ opt.expandtab = true
 opt.tabstop = 2
 opt.shiftwidth = 2
 opt.softtabstop = 2
-
 
 opt.fileformat = 'unix'
