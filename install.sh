@@ -10,10 +10,10 @@ command_exists() {
 
 check_command() {
     if command_exists "$1"; then
-        log_success "$1 is installed"
+        echo "$1 is installed...\n"
         return 0
     else
-        log_warning "$1 is not installed"
+        echo "$1 is not installed...\n"
         return 1
     fi
 }
@@ -232,22 +232,22 @@ setup_scripts() {
 
         if [[ -f "$src" ]]; then
             if [[ -L "$dst" ]]; then
-                log_success "$script is already symlinked"
+                echo "$script is already symlinked...\n"
             elif [[ -f "$dst" ]]; then
-                log_warning "Existing $script found at $dst"
+                echo "Existing $script found at $dst"
                 if prompt_user "Backup existing $script?" "y"; then
                     mv "$dst" "$dst.backup"
                     ln -s "$src" "$dst"
                     chmod +x "$dst"
-                    log_success "$script symlinked and made executable"
+                    echo "$script symlinked and made executable...\n"
                 fi
             else
                 ln -s "$src" "$dst"
                 chmod +x "$dst"
-                log_success "$script symlinked and made executable"
+                echo "$script symlinked and made executable...\n"
             fi
         else
-            log_warning "Script $script not found in repo"
+            echo "Script $script not found in repo...\n"
         fi
     done
 }
@@ -391,8 +391,15 @@ main() {
       echo -e "Setting up your linux...\n"
     fi
 
-    echo "Installing Packages... \n"
+    echo "Shell Configuration...\n"
+    setup_zshrc
+    install_oh_my_zsh
+    install_powerlevel10k
+    setup_shell_aliases
+    setup_scripts
+    setup_secrets
 
+    echo "Installing Packages... \n"
     declare -A PACKAGE_TO_COMMAND=(
       [neovim]="nvim"
       [tmux]="tmux"
@@ -424,13 +431,6 @@ main() {
       fi
     done
 
-    echo "Shell Configuration...\n"
-    install_oh_my_zsh
-    install_powerlevel10k
-    setup_zshrc
-    setup_shell_aliases
-    setup_scripts
-    setup_secrets
 
     echo "Tmux Configuration...\n"
     install_tmux_plugins
