@@ -369,7 +369,11 @@ install_nerd_fonts() {
 
       curl -LO "https://github.com/ryanoasis/nerd-fonts/releases/download/${FONT_VERSION}/${FONT_NAME}.zip"
       unzip -o "${FONT_NAME}.zip" -d "$FONT_DIR"
-      fc-cache -fv
+      if ! command_exists fc-cache; then
+        execute_sudo_command apt update && apt install -y fontconfig
+      else
+        fc-cache -fv
+      fi
     fi
 }
 
