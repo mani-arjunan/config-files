@@ -180,6 +180,7 @@ return packer.startup(function(use)
       require("worktree").setup()
     end,
   })
+  use("nvim-pack/nvim-spectre")
 
   use({
     "~/.config/nvim/custom-plugin/ai-helper",
@@ -196,3 +197,4 @@ return packer.startup(function(use)
     require("packer").sync()
   end
 end)
+
