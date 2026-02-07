@@ -382,6 +382,8 @@ setup_secrets() {
     if [[ ! -d "$secrets_dir" ]]; then
         mkdir -p "$secrets_dir"
     fi
+
+    ln -sf "$secrets_dir/load-envs.sh" "$SCRIPT_DIR/secrets/load-envs.sh"
 }
 
 main() {
