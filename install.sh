@@ -182,11 +182,9 @@ install_powerlevel10k() {
 
   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$P10K_DIR"
 
-  if ! grep -q "powerlevel10k.zsh-theme" "$HOME/.zshrc"; then
-    echo 'source ~/.config/powerlevel10k/powerlevel10k.zsh-theme' >> "$HOME/.zshrc"
-  fi
+  touch "$HOME/.p10k.zsh"
 
-  echo "Powerlevel10k installed. Restart zsh to configure...\n"
+  echo "Powerlevel10k installed...\n"
 }
 
 setup_zshrc() {
@@ -312,6 +310,8 @@ install_lsp_servers() {
     if [[ "$IS_MAC" == true ]] && command_exists brew; then
       echo "2. Installing lua-language-server...\n"
       brew install lua-language-server
+    else
+
     fi
   fi
 
