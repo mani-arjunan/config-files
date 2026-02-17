@@ -1,19 +1,22 @@
 config-file = ghostty-theme
 
 auto-update-channel = tip
-background-image = ~/Documents/wallpapers/new/other-themes/cat_anime-girl-hand-in-hair.png
+# background-image = ~/Documents/wallpapers/Lady.png
+background-image = ~/Documents/wallpapers/new/linux/0311.jpg
+# background-image = ~/Documents/wallpapers/new/cyberpunk/cyberpunk.jpg
 background-image-fit = stretch
-background-image-opacity = 0.1
+background-image-opacity = 0.15
 cursor-style = block
 cursor-style-blink = true
 shell-integration-features = no-cursor
 custom-shader = shaders/bloom025.glsl
-window-padding-x = 4,2
+window-padding-x = 4
 window-padding-y = 6,0
-window-decoration = true
+window-decoration = false
 font-family = "JetBrainsMono Nerd Font"
+window-decoration = auto
 font-size = 18
-macos-titlebar-style = native
+macos-titlebar-style = hidden
 confirm-close-surface = false
 keybind = cmd+s=toggle_quick_terminal
 macos-option-as-alt = right
@@ -23,4 +26,10 @@ keybind = super+r=reload_config
 macos-icon = official
 background-opacity = 1
 background-blur = true
+# background-blur = macos-glass-clear
 unfocused-split-opacity = 0.7
+window-theme = ghostty
+
+
+
+
