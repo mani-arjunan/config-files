@@ -1,0 +1,49 @@
+shift + alt - m : yabai -m window --toggle windowed-fullscreen
+
+alt + shift - h : yabai -m window --toggle float; yabai -m window --grid 1:2:0:0:1:1  
+alt + shift - l : yabai -m window --toggle float; yabai -m window --grid 1:2:1:0:1:1 
+alt + shift - k : yabai -m window --toggle float; yabai -m window --grid 2:1:0:0:1:1  
+alt + shift - j : yabai -m window --toggle float; yabai -m window --grid 2:1:0:1:1:1  
+
+alt - 1 : \
+window_id=$(yabai -m query --windows | jq '.[] | select(.app | ascii_downcase == "ghostty") | .id' | head -n1); \
+[ -n "$window_id" ] && yabai -m window --focus "$window_id" || open -a Ghostty
+
+alt - 2 : \
+window_id=$(yabai -m query --windows | jq '.[] | select(.app | ascii_downcase == "zen") | .id' | head -n1); \
+[ -n "$window_id" ] && yabai -m window --focus "$window_id" || open -a zen
+
+alt - 3 : \
+window_id=$(yabai -m query --windows | jq '.[] | select(.app | ascii_downcase == "slack") | .id' | head -n1); \
+[ -n "$window_id" ] && yabai -m window --focus "$window_id" || open -a slack
+
+alt - 4 : \
+window_id=$(yabai -m query --windows | jq '.[] | select(.app | ascii_downcase == "mongodb compass") | .id' | head -n1); \
+[ -n "$window_id" ] && yabai -m window --focus "$window_id" || open -a "MongoDB Compass"
+
+alt - p : \
+window_id=$(yabai -m query --windows | jq '.[] | select(.app | ascii_downcase == "1password") | .id' | head -n1); \
+[ -n "$window_id" ] && yabai -m window --focus "$window_id" || open -a "1Password"
+
+alt - c : \
+window_id=$(yabai -m query --windows | jq '.[] | select(.app | ascii_downcase == "google chrome") | .id' | head -n1); \
+[ -n "$window_id" ] && yabai -m window --focus "$window_id" || open -a "Google Chrome"
+
+alt - o : \
+window_id=$(yabai -m query --windows | jq '.[] | select(.app | ascii_downcase == "obsidian") | .id' | head -n1); \
+[ -n "$window_id" ] && yabai -m window --focus "$window_id" || open -a "Obsidian"
+
+alt - d : \
+window_id=$(yabai -m query --windows | jq '.[] | select(.app | ascii_downcase == "dbeaver") | .id' | head -n1); \
+[ -n "$window_id" ] && yabai -m window --focus "$window_id" || open -a "DBeaver"
+
+alt - 9 : \
+window_id=$(yabai -m query --windows | jq '.[] | select(.app | ascii_downcase == "ghostty") | .id' | head -n1); \
+if [ -n "$window_id" ]; then \
+  yabai -m window --focus "$window_id"; \
+else \
+  open -na Ghostty; \
+  sleep 0.5; \
+  window_id=$(yabai -m query --windows | jq '.[] | select(.app | ascii_downcase == "ghostty") | .id' | head -n1); \
+  [ -n "$window_id" ] && yabai -m window --manage off --layer below --move abs:100:100 --resize abs:1200:800; \
+fi
