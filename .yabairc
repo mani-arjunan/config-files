@@ -1,0 +1,1 @@
+yabai -m signal --add event=window_focused app="Ghostty" action="yabai -m config active_window_opacity 1"
