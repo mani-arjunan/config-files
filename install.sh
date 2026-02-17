@@ -384,17 +384,20 @@ setup_secrets() {
 }
 
 main() {
-    if [[ "$OS" == "darwin" ]]; then
-      IS_MAC=true
+    uname=$(uname)
+    echo "$uname"
+    
+    if [[ "$uname" == "Darwin" ]]; then
+        IS_MAC=true
     fi
-
+    
     if [[ "$IS_MAC" == true ]]; then
-      echo "Setting up your mac...\n"
-      echo "Installing Homebrew... \n"
-      install_homebrew
+        echo "Setting up your mac..."
+        echo "Installing Homebrew..."
+        install_homebrew
     else
-      echo -e "Setting up your linux...\n"
-      install_zsh
+        echo "Setting up your linux..."
+        install_zsh
     fi
 
     echo "Shell Configuration...\n"
