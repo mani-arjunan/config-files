@@ -1,6 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 IS_MAC=false
+if [[ "$(uname)" == "Darwin" ]]; then
+    IS_MAC=true
+fi
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 set -e
@@ -114,7 +117,7 @@ install_go() {
     curl -LO "https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz"
   fi
 
-  execute_sudo_command rm -rf /usr/local/go
+  # rm -rf /usr/local/go
   execute_sudo_command tar -C /usr/local -xzf go*.tar.gz
 
   echo 'export PATH="/usr/local/go/bin:$PATH"' >> "$HOME/.zshrc"
@@ -190,7 +193,7 @@ setup_zshrc() {
 
   local zshrc_path="$HOME/.zshrc"
 
-  execute_sudo_command rm -rf ~/.zshrc
+  rm -rf ~/.zshrc
   ln -sf "$SCRIPT_DIR/.zshrc" "$zshrc_path"
 
   echo "Zshrc config symlinked...\n"
@@ -345,7 +348,6 @@ install_nerd_fonts() {
     echo "Installing Nerd Fonts...\n"
 
     if [[ "$IS_MAC" == true ]]; then
-      brew tap homebrew/cask-fonts
       brew install --cask font-jetbrains-mono-nerd-font
     else
      if ! command_exists unzip; then
@@ -408,7 +410,7 @@ main() {
     setup_scripts
     setup_secrets
 
-    echo "Installing Packages... \n"
+    echo "Installing Packages..."
     declare -A PACKAGE_TO_COMMAND=(
       [neovim]="nvim"
       [tmux]="tmux"
