@@ -70,7 +70,13 @@ return packer.startup(function(use)
   use("tpope/vim-surround") -- add, delete, change surroundings (it's awesome)
 
   -- commenting with gc
-  use("numToStr/Comment.nvim")
+  use {
+    "echasnovski/mini.comment",
+    config = function()
+      require("mini.comment").setup()
+    end
+  }
+
 
   -- file explorer
   use("nvim-tree/nvim-tree.lua")
