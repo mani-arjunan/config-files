@@ -43,6 +43,8 @@ return packer.startup(function(use)
   use("sainnhe/gruvbox-material")
   use("ilof2/posterpole.nvim")
   use("neanias/everforest-nvim")
+  use("ThorstenRhau/token")
+  use("ellisonleao/gruvbox.nvim") 
   -- ColorSchemes
 
   use("christoomey/vim-tmux-navigator") -- tmux & split window navigation
