@@ -5,8 +5,9 @@ vim.lsp.enable({
   "graphql",
   "rust_analyzer",
   -- "lua_ls",
-  -- "gopls",
+  "gopls",
   -- "csharp_ls",
   -- "css_ls",
-  -- "clangd"
+  "clangd",
+  "groovyls"
 })
