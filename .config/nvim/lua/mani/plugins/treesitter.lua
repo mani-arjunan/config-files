@@ -13,6 +13,7 @@ treesitter.setup {
     "json",
     "lua",
     "yaml",
+    "go",
     "html",
     "css",
     "bash",
