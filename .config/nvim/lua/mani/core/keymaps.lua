@@ -10,7 +10,6 @@ local opts = { noremap = true, silent = true }
 
 -- use jk to exit insert mode
 keymap.set("i", "jk", "<ESC>")
-keymap.set("n", "cq", "cb")
 
 -- move any lines when selected
 keymap.set("v", "J", ":m '>+1<CR>gv=gv")
@@ -31,11 +30,6 @@ keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left
 -- keymap.set to navigate between files
 keymap.set("n", "<C-p>", ":bp <CR>")
 keymap.set("n", "<C-n>", ":bn <CR>")
-
--- keymap.set back word from b to q
-keymap.set("n", "b", "q")
-keymap.set("n", "q", "b")
-keymap.set("n", "dq", "db")
 
 -- keymap.set redo
 keymap.set("n", "r", "<C-r>")
@@ -166,6 +160,9 @@ end)
 keymap.set("n", "<leader>gwf", function()
   vim.cmd("WorktreesFetch")
 end)
+
+keymap.set("n", "<C-b>", "<cmd>normal! 10<C-y><CR>", { desc = "Scroll up 10 lines" })
+keymap.set("n", "<C-n>", "<cmd>normal! 10<C-e><CR>", { desc = "Scroll down 10 lines" })
 
 vim.filetype.add({
   pattern = {
